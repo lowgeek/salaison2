@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salaison de l0wgeek</title>
+  <title>Salaisons de l0wgeek</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <style>
@@ -124,7 +124,7 @@
     /* TIME CARD */
     .time-card { background:linear-gradient(135deg,var(--brick),var(--brown-mid)); border-radius:14px; padding:22px; color:white; text-align:center; margin-top:14px; }
     .time-card-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
-    .time-days { font-family:'Playfair Display',serif; font-size:3em; font-weight:900; line-height:1; }
+    .time-days { font-family:'Playfair Display',serif; font-size:1.8em; font-weight:900; line-height:1; }
     .time-date { margin-top:8px; font-size:14px; opacity:0.8; }
 
     /* SUIVI FORM */
@@ -172,7 +172,8 @@
     .pesee-loss { font-weight:700; color:var(--ok); font-size:12px; }
 
     /* INLINE FORM */
-    .pesee-form { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:flex-end; padding:13px; background:white; border-radius:10px; border:1.5px dashed var(--border); margin:12px 0 16px; }
+    .pesee-form { display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:flex-end; padding:13px; background:white; border-radius:10px; border:1.5px dashed var(--border); margin:12px 0 16px; }
+    .pesee-form .btn-primary { grid-column:1/-1; }
 
     /* CHART */
     .chart-wrapper { height:190px; position:relative; margin-top:14px; }
@@ -209,7 +210,7 @@
 
   <header>
     <div class="header-ornament">✦ Artisan ✦</div>
-    <h1>Salaison de <em>l0wgeek</em></h1>
+    <h1>Salaisons de <em>l0wgeek</em></h1>
     <button class="settings-btn" onclick="openSettings()" title="Configurer JSONbin.io">⚙️</button>
   </header>
 
