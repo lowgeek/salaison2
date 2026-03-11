@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison de Salaison</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --cream:      #F8F2E6;
+      --parchment:  #EDE0C8;
+      --terracotta: #C4613A;
+      --brick:      #8B3525;
+      --dark:       #2C1208;
+      --brown-mid:  #6B3020;
+      --gold:       #C8973A;
+      --ok:         #4A7C3A;
+      --text:       #3D1C0D;
+      --text-light: #7A5040;
+      --border:     #D4B896;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--dark);
+      min-height: 100vh;
+      color: var(--text);
+    }
+    body::after {
+      content:'';
+      position:fixed; inset:0;
+      pointer-events:none; z-index:9999;
+      opacity:0.022;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .app-wrapper { max-width:680px; margin:0 auto; padding:20px 16px 48px; }
+
+    /* HEADER */
+    header { text-align:center; padding:28px 0 14px; position:relative; }
+    .header-ornament { color:var(--gold); font-size:11px; letter-spacing:5px; text-transform:uppercase; font-weight:300; }
+    header h1 { font-family:'Playfair Display',serif; font-size:clamp(2em,6vw,3em); color:var(--cream); font-weight:900; line-height:1.1; margin:6px 0; }
+    header h1 em { font-style:italic; color:var(--gold); }
+    .settings-btn {
+      position:absolute; top:30px; right:0;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+      color:var(--cream); width:38px; height:38px; border-radius:50%;
+      cursor:pointer; font-size:16px; transition:background 0.2s;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .settings-btn:hover { background:rgba(255,255,255,0.18); }
+    .ornament-divider {
+      display:flex; align-items:center; gap:12px;
+      margin:8px 0 14px; color:var(--gold); font-size:14px;
+    }
+    .ornament-divider::before,.ornament-divider::after {
+      content:''; flex:1; height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+
+    /* SYNC */
+    .sync-status {
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      font-size:12px; color:rgba(248,242,230,0.45); margin-bottom:18px;
+    }
+    .sync-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.25); }
+    .sync-dot.ok      { background:#5CB85C; }
+    .sync-dot.syncing { background:#F0AD4E; animation:blink 1s infinite; }
+    .sync-dot.error   { background:#D9534F; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* TABS */
+    .tabs { display:flex; background:rgba(0,0,0,0.35); border-radius:12px; padding:4px; margin-bottom:22px; }
+    .tab-btn {
+      flex:1; padding:11px; border:none; background:transparent;
+      color:rgba(248,242,230,0.45); font-family:'Lato',sans-serif;
+      font-size:14px; font-weight:700; letter-spacing:0.4px;
+      cursor:pointer; border-radius:9px; transition:all 0.25s;
+    }
+    .tab-btn.active { background:var(--cream); color:var(--dark); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+
+    /* CARD */
+    .card { background:var(--cream); border-radius:16px; padding:22px; margin-bottom:14px; border:1px solid var(--parchment); }
+    .card-title { font-family:'Playfair Display',serif; font-size:1.1em; color:var(--brick); margin-bottom:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+
+    /* WEIGHT INPUT */
+    .weight-display { text-align:center; margin:10px 0 14px; }
+    .weight-number { font-family:'Playfair Display',serif; font-size:3.8em; font-weight:900; color:var(--brick); line-height:1; }
+    .weight-unit { font-size:1.5em; color:var(--text-light); font-weight:300; }
+    .stepper-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .step-btn {
+      padding:10px 4px; border:1px solid var(--border); background:white;
+      color:var(--brown-mid); border-radius:9px; cursor:pointer;
+      font-size:13px; font-weight:700; font-family:'Lato',sans-serif; transition:all 0.15s;
+    }
+    .step-btn:hover { background:var(--terracotta); color:white; border-color:var(--terracotta); }
+    .manual-input {
+      width:100%; margin-top:10px; padding:9px;
+      border:2px solid var(--border); border-radius:9px;
+      font-size:16px; font-family:'Lato',sans-serif;
+      color:var(--text); background:white; text-align:center;
+    }
+    .manual-input:focus { outline:none; border-color:var(--terracotta); }
+
+    /* SLIDER */
+    .slider-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+    .slider-label { font-weight:700; font-size:13px; color:var(--text); }
+    .slider-value { font-family:'Playfair Display',serif; font-size:1.6em; font-weight:700; color:var(--terracotta); }
+    input[type=range] { width:100%; height:6px; border-radius:3px; background:var(--parchment); outline:none; -webkit-appearance:none; cursor:pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:var(--terracotta); cursor:pointer; border:3px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
+    .slider-hints { display:flex; justify-content:space-between; font-size:11px; color:var(--text-light); margin-top:5px; }
+
+    /* RESULTS */
+    .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .result-box { background:white; border-radius:11px; padding:13px 15px; border:1px solid var(--border); }
+    .result-box.hl { background:var(--brick); border-color:var(--brick); }
+    .result-box-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); margin-bottom:3px; }
+    .result-box.hl .result-box-label { color:rgba(255,255,255,0.65); }
+    .result-box-value { font-family:'Playfair Display',serif; font-size:1.45em; font-weight:700; color:var(--brick); }
+    .result-box.hl .result-box-value { color:white; }
+
+    /* TIME CARD */
+    .time-card { background:linear-gradient(135deg,var(--brick),var(--brown-mid)); border-radius:14px; padding:22px; color:white; text-align:center; margin-top:14px; }
+    .time-card-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+    .time-days { font-family:'Playfair Display',serif; font-size:3em; font-weight:900; line-height:1; }
+    .time-date { margin-top:8px; font-size:14px; opacity:0.8; }
+
+    /* SUIVI FORM */
+    .suivi-form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .form-field { display:flex; flex-direction:column; gap:5px; }
+    .form-field label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); }
+    .form-field input { padding:10px 13px; border:2px solid var(--border); border-radius:9px; font-size:14px; background:white; color:var(--text); font-family:'Lato',sans-serif; transition:border-color 0.2s; }
+    .form-field input:focus { outline:none; border-color:var(--terracotta); }
+
+    /* BUTTONS */
+    .btn-primary { background:var(--terracotta); color:white; border:none; border-radius:9px; padding:11px 20px; font-family:'Lato',sans-serif; font-weight:700; font-size:14px; cursor:pointer; transition:all 0.2s; }
+    .btn-primary:hover { background:var(--brick); transform:translateY(-1px); }
+    .btn-ghost { background:transparent; border:1px solid var(--border); color:var(--text-light); border-radius:8px; padding:7px 14px; font-family:'Lato',sans-serif; font-weight:700; font-size:12px; cursor:pointer; transition:all 0.2s; }
+    .btn-ghost:hover { border-color:var(--terracotta); color:var(--terracotta); }
+    .btn-del { background:transparent; border:1px solid #dc3545; color:#dc3545; border-radius:6px; padding:4px 9px; font-size:11px; cursor:pointer; font-family:'Lato',sans-serif; font-weight:700; transition:all 0.15s; white-space:nowrap; }
+    .btn-del:hover { background:#dc3545; color:white; }
+
+    /* PRODUCT CARDS */
+    .product-card { background:var(--cream); border-radius:16px; margin-bottom:14px; border:1px solid var(--parchment); overflow:hidden; }
+    .product-header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; transition:background 0.15s; }
+    .product-header:hover { background:rgba(0,0,0,0.02); }
+    .product-name { font-family:'Playfair Display',serif; font-size:1.15em; font-weight:700; color:var(--brick); }
+    .product-meta { font-size:12px; color:var(--text-light); margin-top:2px; }
+    .chevron { color:var(--text-light); font-size:12px; transition:transform 0.25s; display:inline-block; }
+    .chevron.open { transform:rotate(180deg); }
+
+    /* PROGRESS */
+    .product-progress { padding:0 20px 16px; }
+    .progress-labels { display:flex; justify-content:space-between; font-size:12px; color:var(--text-light); margin-bottom:6px; }
+    .progress-pct { font-weight:700; color:var(--terracotta); }
+    .progress-track { height:9px; background:var(--parchment); border-radius:5px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--terracotta),var(--gold)); border-radius:5px; transition:width 0.5s ease; }
+    .progress-fill.done { background:linear-gradient(90deg,var(--ok),#7CB85C); }
+
+    /* PRODUCT BODY */
+    .product-body { border-top:1px solid var(--parchment); padding:20px; display:none; }
+    .product-body.open { display:block; }
+
+    /* PESEES */
+    .pesee-row { display:grid; grid-template-columns:1fr 80px 95px 32px; align-items:center; gap:8px; padding:8px 11px; border-radius:8px; margin-bottom:4px; font-size:13px; }
+    .pesee-row.hdr { background:var(--parchment); font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-light); }
+    .pesee-row.data { background:white; border:1px solid var(--border); }
+    .pesee-row.init { background:rgba(139,53,37,0.07); border:1px solid rgba(139,53,37,0.15); }
+    .pesee-weight { font-weight:700; color:var(--text); }
+    .pesee-loss { font-weight:700; color:var(--ok); font-size:12px; }
+
+    /* INLINE FORM */
+    .pesee-form { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:flex-end; padding:13px; background:white; border-radius:10px; border:1.5px dashed var(--border); margin:12px 0 16px; }
+
+    /* CHART */
+    .chart-wrapper { height:190px; position:relative; margin-top:14px; }
+
+    /* EMPTY */
+    .empty-state { text-align:center; padding:50px 20px; }
+    .empty-icon { font-size:3.5em; margin-bottom:14px; opacity:0.6; }
+    .empty-title { font-family:'Playfair Display',serif; font-size:1.3em; color:var(--cream); margin-bottom:8px; }
+    .empty-sub { font-size:13px; color:rgba(248,242,230,0.4); }
+
+    /* MODAL */
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:500; display:none; align-items:center; justify-content:center; padding:20px; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--cream); border-radius:20px; padding:28px; width:100%; max-width:460px; }
+    .modal h2 { font-family:'Playfair Display',serif; color:var(--brick); margin-bottom:8px; }
+    .modal-desc { font-size:13px; color:var(--text-light); margin-bottom:20px; line-height:1.55; }
+    .modal-desc a { color:var(--terracotta); font-weight:700; text-decoration:none; }
+    .modal-field { margin-bottom:14px; }
+    .modal-field label { display:block; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); margin-bottom:6px; }
+    .modal-field input { width:100%; padding:10px 13px; border:2px solid var(--border); border-radius:9px; font-size:14px; font-family:'Lato',sans-serif; color:var(--text); }
+    .modal-field input:focus { outline:none; border-color:var(--terracotta); }
+    .modal-actions { display:flex; gap:10px; margin-top:20px; }
+
+    @media(max-width:480px) {
+      .suivi-form { grid-template-columns:1fr; }
+      .pesee-form { grid-template-columns:1fr 1fr; }
+      .pesee-form .btn-primary { grid-column:1/-1; }
+      .pesee-row { grid-template-columns:1fr 70px 80px 28px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <header>
+    <div class="header-ornament">✦ Artisan ✦</div>
+    <h1>Maison de <em>Salaison</em></h1>
+    <button class="settings-btn" onclick="openSettings()" title="Configurer JSONbin.io">⚙️</button>
+  </header>
+
+  <div class="ornament-divider">✦</div>
+
+  <div class="sync-status">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncText">Non configuré</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('calc',this)">🧂 Calculateur</button>
+    <button class="tab-btn"        onclick="switchTab('suivi',this)">📊 Suivi séchage</button>
+  </div>
+
+  <!-- ══ CALCULATEUR ══ -->
+  <div class="tab-panel active" id="tab-calc">
+
+    <div class="card">
+      <div class="card-title">⚖️ Poids de la viande</div>
+      <div class="weight-display">
+        <span class="weight-number" id="poidsDisplay">0</span>
+        <span class="weight-unit"> g</span>
+      </div>
+      <div class="stepper-grid">
+        <button class="step-btn" onclick="ajustPoids(-100)">−100g</button>
+        <button class="step-btn" onclick="ajustPoids(-10)">−10g</button>
+        <button class="step-btn" onclick="ajustPoids(10)">+10g</button>
+        <button class="step-btn" onclick="ajustPoids(100)">+100g</button>
+      </div>
+      <input class="manual-input" type="number" id="poidsManuel" min="0" placeholder="Ou saisissez directement le poids…" oninput="manualPoids()">
+    </div>
+
+    <div class="card">
+      <div class="slider-header">
+        <span class="slider-label">Pourcentage de sel</span>
+        <span class="slider-value" id="selVal">4.5%</span>
+      </div>
+      <input type="range" id="selSlider" min="2" max="8" step="0.1" value="4.5" oninput="updateSel(this.value)">
+      <div class="slider-hints"><span>2% — léger</span><span>4.5% — standard</span><span>8% — fort</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 Ingrédients à peser</div>
+      <div class="results-grid">
+        <div class="result-box hl">
+          <div class="result-box-label">🧂 Sel</div>
+          <div class="result-box-value" id="r-sel">0 g</div>
+        </div>
+        <div class="result-box">
+          <div class="result-box-label">🍬 Sucre (2%)</div>
+          <div class="result-box-value" id="r-sucre">0 g</div>
+        </div>
+        <div class="result-box">
+          <div class="result-box-label">🌶 Poivre (1%)</div>
+          <div class="result-box-value" id="r-poivre">0 g</div>
+        </div>
+        <div class="result-box">
+          <div class="result-box-label">🌿 Épices (0.5%)</div>
+          <div class="result-box-value" id="r-epices">0 g</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⏱️ Durée de salaison</div>
+      <div class="slider-header">
+        <span class="slider-label">Diamètre de la pièce</span>
+        <span class="slider-value" id="diaVal">0 cm</span>
+      </div>
+      <input type="range" id="diaSlider" min="0" max="22" step="0.5" value="0" oninput="updateDia(this.value)">
+      <div class="slider-hints"><span>0 cm</span><span>11 cm</span><span>22 cm</span></div>
+      <div class="time-card">
+        <div class="time-card-label">Durée recommandée</div>
+        <div class="time-days" id="t-jours">—</div>
+        <div class="time-date" id="t-date"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ SUIVI ══ -->
+  <div class="tab-panel" id="tab-suivi">
+
+    <div class="card">
+      <div class="card-title">➕ Nouveau produit</div>
+      <div class="suivi-form">
+        <div class="form-field" style="grid-column:1/-1">
+          <label>Nom</label>
+          <input type="text" id="newNom" placeholder="Ex : Coppa — Janvier 2026">
+        </div>
+        <div class="form-field">
+          <label>Poids initial (g)</label>
+          <input type="number" id="newPoids" placeholder="1200" min="1">
+        </div>
+        <div class="form-field">
+          <label>Perte cible (%)</label>
+          <input type="number" id="newCible" placeholder="30" min="5" max="60" value="30">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <button class="btn-primary" onclick="ajouterSuivi()">Ajouter ce produit</button>
+      </div>
+    </div>
+
+    <div id="suiviList"></div>
+
+  </div>
+
+</div>
+
+<!-- MODAL SETTINGS -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h2>⚙️ Synchronisation</h2>
+    <p class="modal-desc">
+      Créez un compte gratuit sur <a href="https://jsonbin.io" target="_blank">jsonbin.io</a>,
+      puis créez un Bin vide. Renseignez votre <strong>Master Key</strong> et l'<strong>ID du Bin</strong>.
+      Ces infos sont stockées uniquement dans votre navigateur.
+    </p>
+    <div class="modal-field">
+      <label>Master Key ($2a$…)</label>
+      <input type="password" id="cfg-key" placeholder="Votre Master Key JSONbin.io">
+    </div>
+    <div class="modal-field">
+      <label>Bin ID</label>
+      <input type="text" id="cfg-bin" placeholder="Ex : 64a3f2c8ace6f33a2b1234ab">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveSettings()">Enregistrer &amp; synchroniser</button>
+      <button class="btn-ghost" onclick="closeSettings()">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* STATE */
+let poids = 0, sel = 4.5, dia = 0;
+let suivis = [], charts = {};
+let openCards = new Set();
+const JSONBIN = 'https://api.jsonbin.io/v3/b/';
+let cfg = { key: localStorage.getItem('sal_key')||'', bin: localStorage.getItem('sal_bin')||'' };
+
+/* SETTINGS */
+function openSettings() {
+  document.getElementById('cfg-key').value = cfg.key;
+  document.getElementById('cfg-bin').value = cfg.bin;
+  document.getElementById('settingsModal').classList.add('open');
+}
+function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
+function saveSettings() {
+  cfg.key = document.getElementById('cfg-key').value.trim();
+  cfg.bin = document.getElementById('cfg-bin').value.trim();
+  localStorage.setItem('sal_key', cfg.key);
+  localStorage.setItem('sal_bin', cfg.bin);
+  closeSettings(); loadData();
+}
+
+/* SYNC */
+function setSync(state, text) {
+  document.getElementById('syncDot').className = 'sync-dot'+(state?' '+state:'');
+  document.getElementById('syncText').textContent = text;
+}
+async function loadData() {
+  if (!cfg.key||!cfg.bin) { setSync('error','Non configuré — cliquez sur ⚙️'); renderSuivis(); return; }
+  setSync('syncing','Chargement…');
+  try {
+    const res = await fetch(`${JSONBIN}${cfg.bin}/latest`, { headers:{'X-Master-Key':cfg.key,'X-Bin-Meta':'false'} });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    suivis = data.suivis||[];
+    setSync('ok',`Synchronisé · ${suivis.length} suivi(s)`);
+    renderSuivis();
+  } catch(e) { setSync('error','Erreur de connexion'); renderSuivis(); }
+}
+async function saveData() {
+  if (!cfg.key||!cfg.bin) return;
+  setSync('syncing','Sauvegarde…');
+  try {
+    const res = await fetch(`${JSONBIN}${cfg.bin}`, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':cfg.key},
+      body: JSON.stringify({suivis})
+    });
+    if (!res.ok) throw new Error(res.status);
+    setSync('ok',`Synchronisé · ${suivis.length} suivi(s)`);
+  } catch(e) { setSync('error','Erreur de sauvegarde'); }
+}
+
+/* TABS */
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* CALCULATEUR */
+function ajustPoids(d) {
+  poids = Math.max(0, poids+d);
+  document.getElementById('poidsDisplay').textContent = poids;
+  document.getElementById('poidsManuel').value = poids||'';
+  calculer();
+}
+function manualPoids() {
+  poids = Math.max(0, parseFloat(document.getElementById('poidsManuel').value)||0);
+  document.getElementById('poidsDisplay').textContent = poids;
+  calculer();
+}
+function updateSel(v) {
+  sel = parseFloat(v);
+  document.getElementById('selVal').textContent = sel.toFixed(1)+'%';
+  calculer();
+}
+function updateDia(v) {
+  dia = parseFloat(v);
+  document.getElementById('diaVal').textContent = dia.toFixed(1)+' cm';
+  calculerDuree();
+}
+function calculer() {
+  const g = pct => Math.round(poids*pct/100)+' g';
+  document.getElementById('r-sel').textContent    = g(sel);
+  document.getElementById('r-sucre').textContent  = g(2);
+  document.getElementById('r-poivre').textContent = g(1);
+  document.getElementById('r-epices').textContent = g(0.5);
+}
+function calculerDuree() {
+  const j = dia===0 ? 0 : Math.round(dia+1);
+  const jEl = document.getElementById('t-jours');
+  const dEl = document.getElementById('t-date');
+  if (j===0) { jEl.textContent='—'; dEl.textContent=''; return; }
+  jEl.textContent = j+(j===1?' jour':' jours');
+  const fin = new Date(); fin.setDate(fin.getDate()+j);
+  dEl.textContent = '📅 Prêt le '+fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+}
+
+/* SUIVI CRUD */
+function ajouterSuivi() {
+  const nom  = document.getElementById('newNom').value.trim();
+  const pi   = parseFloat(document.getElementById('newPoids').value);
+  const cible= parseFloat(document.getElementById('newCible').value)||30;
+  if (!nom||!pi||pi<=0) { alert('Remplissez le nom et le poids initial.'); return; }
+  suivis.push({ id:Date.now(), nom, poidsInitial:pi, perteCible:Math.min(60,Math.max(5,cible)),
+    dateDebut:new Date().toLocaleDateString('fr-FR'), dateTSDebut:Date.now(), pesees:[] });
+  document.getElementById('newNom').value='';
+  document.getElementById('newPoids').value='';
+  saveData(); renderSuivis();
+}
+function supprimerSuivi(id) {
+  if (!confirm('Supprimer définitivement ce suivi ?')) return;
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+  openCards.delete(id);
+  suivis = suivis.filter(s=>s.id!==id);
+  saveData(); renderSuivis();
+}
+function ajouterPesee(id) {
+  const dateEl = document.getElementById('pd-'+id);
+  const poidsEl= document.getElementById('pp-'+id);
+  const p = parseFloat(poidsEl.value);
+  if (!p||p<=0) { poidsEl.focus(); return; }
+  const suivi = suivis.find(s=>s.id===id); if(!suivi)return;
+  let dateStr;
+  if (dateEl.value) {
+    const d = new Date(dateEl.value+'T12:00:00');
+    dateStr = d.toLocaleDateString('fr-FR');
+  } else dateStr = new Date().toLocaleDateString('fr-FR');
+  suivi.pesees.push({date:dateStr, poids:p, ts:Date.now()});
+  poidsEl.value='';
+  openCards.add(id);
+  saveData(); renderSuivis();
+}
+function supprimerPesee(sid, idx) {
+  const s = suivis.find(s=>s.id===sid); if(!s)return;
+  s.pesees.splice(idx,1);
+  openCards.add(sid);
+  saveData(); renderSuivis();
+}
+
+/* CHART */
+function renderChart(id) {
+  const s = suivis.find(s=>s.id===id);
+  if (!s||s.pesees.length===0) return;
+  const canvas = document.getElementById('chart-'+id); if(!canvas)return;
+  if (charts[id]) charts[id].destroy();
+  const cible = Math.round(s.poidsInitial*(1-s.perteCible/100));
+  const labels = [s.dateDebut, ...s.pesees.map(p=>p.date)];
+  const data   = [s.poidsInitial, ...s.pesees.map(p=>p.poids)];
+  charts[id] = new Chart(canvas, {
+    type:'line',
+    data:{ labels, datasets:[
+      { label:'Poids mesuré', data, borderColor:'#C4613A', backgroundColor:'rgba(196,97,58,0.08)',
+        fill:true, tension:0.35, pointBackgroundColor:'#C4613A', pointRadius:5, pointHoverRadius:7 },
+      { label:`Objectif −${s.perteCible}% (${cible} g)`, data:labels.map(()=>cible),
+        borderColor:'#4A7C3A', borderDash:[6,4], borderWidth:2, pointRadius:0, fill:false }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{ labels:{ font:{family:'Lato',size:11}, color:'#6B3020', boxWidth:14 } },
+        tooltip:{ callbacks:{ label:ctx=>ctx.dataset.label+': '+ctx.parsed.y+' g' } }
+      },
+      scales:{
+        y:{ grid:{color:'rgba(0,0,0,0.05)'}, ticks:{color:'#6B3020',font:{size:11},callback:v=>v+' g'} },
+        x:{ grid:{display:false}, ticks:{color:'#6B3020',font:{size:10},maxRotation:30} }
+      }
+    }
+  });
+}
+
+/* TOGGLE */
+function toggleCard(id) {
+  const body  = document.getElementById('body-'+id);
+  const chev  = document.getElementById('chev-'+id);
+  if (!body) return;
+  if (openCards.has(id)) {
+    openCards.delete(id); body.classList.remove('open'); chev.classList.remove('open');
+  } else {
+    openCards.add(id); body.classList.add('open'); chev.classList.add('open'); renderChart(id);
+  }
+}
+
+/* RENDER SUIVIS */
+function renderSuivis() {
+  const list = document.getElementById('suiviList'); if(!list)return;
+  if (suivis.length===0) {
+    list.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">🥩</div>
+      <div class="empty-title">Aucun produit en cours</div>
+      <div class="empty-sub">Ajoutez votre première pièce ci-dessus</div>
+    </div>`; return;
+  }
+  const today = new Date().toISOString().split('T')[0];
+  list.innerHTML = suivis.map(s => {
+    const cible     = Math.round(s.poidsInitial*(1-s.perteCible/100));
+    const last      = s.pesees.length>0 ? s.pesees[s.pesees.length-1].poids : s.poidsInitial;
+    const perteAbs  = s.poidsInitial-last;
+    const cibleAbs  = s.poidsInitial-cible;
+    const prog      = cibleAbs>0 ? Math.min(100,Math.round(perteAbs/cibleAbs*100)) : 0;
+    const done      = prog>=100;
+    const isOpen    = openCards.has(s.id);
+    let jours='?';
+    try {
+      const ref = s.dateTSDebut ? s.dateTSDebut : (() => { const p=s.dateDebut.split('/'); return new Date(p[2],p[1]-1,p[0]).getTime(); })();
+      jours = Math.floor((Date.now()-ref)/86400000);
+    } catch(e){}
+
+    const peseeRows = s.pesees.map((p,i)=>{
+      const perte = s.poidsInitial-p.poids;
+      const pct   = ((perte/s.poidsInitial)*100).toFixed(1);
+      return `<div class="pesee-row data">
+        <span style="color:var(--text-light)">${p.date}</span>
+        <span class="pesee-weight">${p.poids} g</span>
+        <span class="pesee-loss">−${perte} g (${pct}%)</span>
+        <button class="btn-del" onclick="supprimerPesee(${s.id},${i})">×</button>
+      </div>`;
+    }).join('');
+
+    return `<div class="product-card">
+      <div class="product-header" onclick="toggleCard(${s.id})">
+        <div>
+          <div class="product-name">${s.nom}</div>
+          <div class="product-meta">Depuis le ${s.dateDebut} · ${jours} j · ${s.pesees.length} pesée(s)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-family:'Playfair Display',serif;font-size:1.05em;font-weight:700;color:${done?'var(--ok)':'var(--terracotta)'}">
+            ${done?'✅ Prêt':prog+'%'}
+          </span>
+          <span class="chevron ${isOpen?'open':''}" id="chev-${s.id}">▼</span>
+        </div>
+      </div>
+      <div class="product-progress">
+        <div class="progress-labels">
+          <span>${s.poidsInitial} g → ${cible} g (−${s.perteCible}%)</span>
+          <span class="progress-pct">Actuel : ${last} g</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill ${done?'done':''}" style="width:${prog}%"></div>
+        </div>
+      </div>
+      <div class="product-body ${isOpen?'open':''}" id="body-${s.id}">
+        <div style="margin-bottom:4px;">
+          <div class="pesee-row hdr"><span>Date</span><span>Poids</span><span>Perte totale</span><span></span></div>
+          <div class="pesee-row init">
+            <span>🏁 ${s.dateDebut}</span>
+            <span class="pesee-weight">${s.poidsInitial} g</span>
+            <span class="pesee-loss">—</span><span></span>
+          </div>
+          ${peseeRows}
+        </div>
+        <div class="pesee-form">
+          <div class="form-field">
+            <label>Date</label>
+            <input type="date" id="pd-${s.id}" value="${today}">
+          </div>
+          <div class="form-field">
+            <label>Poids (g)</label>
+            <input type="number" id="pp-${s.id}" placeholder="850" min="1"
+                   onkeydown="if(event.key==='Enter')ajouterPesee(${s.id})">
+          </div>
+          <button class="btn-primary" onclick="ajouterPesee(${s.id})" style="height:42px;align-self:flex-end;">➕</button>
+        </div>
+        ${s.pesees.length>0
+          ? `<div class="chart-wrapper"><canvas id="chart-${s.id}"></canvas></div>`
+          : `<p style="text-align:center;color:var(--text-light);font-size:13px;padding:8px 0 4px;">📈 Graphique disponible après la première pesée</p>`
+        }
+        <div style="text-align:right;margin-top:16px;">
+          <button class="btn-del" onclick="supprimerSuivi(${s.id})">🗑️ Supprimer ce suivi</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  openCards.forEach(id => {
+    const c = document.getElementById('chart-'+id);
+    if (c) renderChart(id);
+  });
+}
+
+/* INIT */
+calculer(); calculerDuree();
+if (cfg.key&&cfg.bin) loadData();
+else { setSync('error','Non configuré — cliquez sur ⚙️'); renderSuivis(); }
+</script>
+</body>
+</html>
