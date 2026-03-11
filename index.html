@@ -172,8 +172,10 @@
     .pesee-loss { font-weight:700; color:var(--ok); font-size:12px; }
 
     /* INLINE FORM */
-    .pesee-form { display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:flex-end; padding:13px; background:white; border-radius:10px; border:1.5px dashed var(--border); margin:12px 0 16px; }
-    .pesee-form .btn-primary { grid-column:1/-1; }
+    .pesee-form { display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:flex-end; padding:13px; background:white; border-radius:10px; border:1.5px dashed var(--border); margin:12px 0 16px; width:100%; box-sizing:border-box; }
+    .pesee-form .form-field { min-width:0; }
+    .pesee-form .form-field input { width:100%; min-width:0; box-sizing:border-box; }
+    .pesee-form .btn-primary { grid-column:1/-1; width:100%; }
 
     /* CHART */
     .chart-wrapper { height:190px; position:relative; margin-top:14px; }
