@@ -110,9 +110,20 @@
     .slider-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
     .slider-label { font-weight:700; font-size:13px; color:var(--text); }
     .slider-value { font-family:'Playfair Display',serif; font-size:1.6em; font-weight:700; color:var(--terracotta); }
-    input[type=range] { width:100%; height:6px; border-radius:3px; background:var(--parchment); outline:none; -webkit-appearance:none; cursor:pointer; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:var(--terracotta); cursor:pointer; border:3px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
-    .slider-hints { display:flex; justify-content:space-between; font-size:11px; color:var(--text-light); margin-top:5px; }
+    .slider-hints { display:flex; justify-content:space-between; font-size:11px; color:var(--text-light); margin-top:10px; }
+
+    /* CUSTOM SLIDER */
+    .custom-slider { position:relative; height:22px; display:flex; align-items:center; cursor:default; user-select:none; }
+    .cs-track { position:absolute; left:0; right:0; height:6px; background:var(--parchment); border-radius:3px; }
+    .cs-fill  { height:100%; background:var(--terracotta); border-radius:3px; width:0%; }
+    .cs-thumb {
+      position:absolute; width:22px; height:22px; border-radius:50%;
+      background:var(--terracotta); border:3px solid white;
+      box-shadow:0 2px 6px rgba(0,0,0,0.2);
+      cursor:grab; transform:translateX(-50%); left:0%;
+      transition: box-shadow 0.15s;
+    }
+    .cs-thumb:active { cursor:grabbing; box-shadow:0 3px 10px rgba(0,0,0,0.3); }
 
     /* RESULTS */
     .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
@@ -197,7 +208,7 @@
 
     /* SALAISON COUNTDOWN */
     .salaison-countdown {
-      margin:0 20px 16px;
+      margin:0 0 16px;
       background:linear-gradient(135deg, var(--salt), #2A4B6A);
       border-radius:12px; padding:14px 18px; color:white;
       display:flex; align-items:center; justify-content:space-between;
@@ -301,7 +312,7 @@
   <div class="tab-panel active" id="tab-calc">
 
     <div class="card">
-      <div class="card-title">⚖️ Poids de la viande :</div>
+      <div class="card-title">⚖️ Poids de la viande</div>
       <div class="weight-display">
         <span class="weight-number" id="poidsDisplay">0</span>
         <span class="weight-unit"> g</span>
@@ -320,12 +331,16 @@
         <span class="slider-label">Pourcentage de sel</span>
         <span class="slider-value" id="selVal">4.5%</span>
       </div>
-      <input type="range" id="selSlider" min="2" max="8" step="0.1" value="4.5" oninput="updateSel(this.value)">
-      <div class="slider-hints" style="display:grid;grid-template-columns:1fr 1fr 1fr;"><span style="text-align:left">2% — léger</span><span style="text-align:center">4.5% — standard</span><span style="text-align:right">8% — fort</span></div>
+      <input type="range" id="selSlider" min="2" max="8" step="0.1" value="4.5" oninput="updateSel(this.value)" style="display:none">
+      <div class="custom-slider" id="selSliderCustom" data-min="2" data-max="8" data-step="0.1" data-value="4.5" data-cb="updateSel">
+        <div class="cs-track"><div class="cs-fill" id="selSliderFill"></div></div>
+        <div class="cs-thumb" id="selSliderThumb"></div>
+      </div>
+      <div class="slider-hints"><span>2% — léger</span><span>8% — fort</span></div>
     </div>
 
     <div class="card">
-      <div class="card-title">📋 Ingrédients :</div>
+      <div class="card-title">📋 Ingrédients à peser</div>
       <div class="results-grid">
         <div class="result-box">
           <div class="result-box-label">🧂 Sel</div>
@@ -347,12 +362,16 @@
     </div>
 
     <div class="card">
-      <div class="card-title">⏱️ Durée de salaison :</div>
+      <div class="card-title">⏱️ Durée de salaison</div>
       <div class="slider-header">
         <span class="slider-label">Diamètre de la pièce</span>
         <span class="slider-value" id="diaVal">0 cm</span>
       </div>
-      <input type="range" id="diaSlider" min="0" max="22" step="0.5" value="0" oninput="updateDia(this.value)">
+      <input type="range" id="diaSlider" min="0" max="22" step="0.5" value="0" oninput="updateDia(this.value)" style="display:none">
+      <div class="custom-slider" id="diaSliderCustom" data-min="0" data-max="22" data-step="0.5" data-value="0" data-cb="updateDia">
+        <div class="cs-track"><div class="cs-fill" id="diaSliderFill"></div></div>
+        <div class="cs-thumb" id="diaSliderThumb"></div>
+      </div>
       <div class="slider-hints"><span>0 cm</span><span>11 cm</span><span>22 cm</span></div>
       <div class="time-card">
         <div class="time-card-label">Durée recommandée</div>
@@ -368,24 +387,24 @@
       <div class="card-title">➕ Nouveau produit en séchage</div>
       <div class="suivi-form">
         <div class="form-field" style="grid-column:1/-1">
-          <label>Nom :</label>
+          <label>Nom</label>
           <input type="text" id="newNom" placeholder="Ex : Coppa — Janvier 2026">
         </div>
         <div class="form-field">
-          <label>Poids de mise en séchage (g) :</label>
+          <label>Poids de mise en séchage (g)</label>
           <input type="number" id="newPoids" placeholder="1200" min="1">
         </div>
         <div class="form-field">
-          <label>Perte cible (%) :</label>
+          <label>Perte cible (%)</label>
           <input type="number" id="newCible" placeholder="40" min="5" max="60" value="40">
         </div>
         <div class="form-field">
-          <label>Date de mise en séchage :</label>
+          <label>Date de mise en séchage</label>
           <input type="date" id="newDateDebut">
         </div>
       </div>
       <div style="margin-top:14px;">
-        <button class="btn-primary" onclick="ajouterSuivi()">Ajouter ce produit</button>
+        <button class="btn-send-suivi" onclick="ajouterSuivi()">💨 Ajouter ce produit en séchage</button>
       </div>
     </div>
 
@@ -624,11 +643,6 @@ function confirmerEnvoiSuivi() {
   });
   document.getElementById('envoiSuiviModal').classList.remove('open');
   saveData(); renderSuivis();
-  // Basculer sur l'onglet suivi
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-suivi').classList.add('active');
-  document.querySelectorAll('.tab-btn')[1].classList.add('active');
 }
 
 /* SUIVI CRUD */
@@ -789,6 +803,7 @@ function renderSuivis() {
     list.innerHTML=`<div class="empty-state">
       <div class="empty-icon">🥩</div>
       <div class="empty-title">Aucun produit en cours</div>
+      <div class="empty-sub">Ajoutez votre première pièce ci-dessus</div>
     </div>`; return;
   }
 
@@ -951,9 +966,9 @@ function renderSuivis() {
         </div>
         <span class="chevron ${isOpen?'open':''}" id="chev-${s.id}">▼</span>
       </div>
-      ${countdownHtml}
       ${progressHtml}
       <div class="product-body ${isOpen?'open':''}" id="body-${s.id}">
+        ${countdownHtml}
         ${bodyContent}
         <div style="text-align:right;margin-top:16px;">
           <button class="btn-del" onclick="supprimerSuivi(${s.id})">🗑️ Supprimer ce suivi</button>
@@ -967,6 +982,65 @@ function renderSuivis() {
     if (c) renderChart(id);
   });
 }
+
+/* CUSTOM SLIDERS */
+function initCustomSlider(el) {
+  const min   = parseFloat(el.dataset.min);
+  const max   = parseFloat(el.dataset.max);
+  const step  = parseFloat(el.dataset.step);
+  const cb    = window[el.dataset.cb];
+  const thumb = el.querySelector('.cs-thumb');
+  const fill  = el.querySelector('.cs-fill');
+  let value   = parseFloat(el.dataset.value);
+
+  function pct(v) { return ((v - min) / (max - min)) * 100; }
+  function snap(v) { return Math.round(v / step) * step; }
+
+  function setVal(v) {
+    value = Math.min(max, Math.max(min, snap(v)));
+    const p = pct(value);
+    thumb.style.left = p + '%';
+    fill.style.width = p + '%';
+    cb(value);
+  }
+
+  // Init position
+  setVal(value);
+
+  // Drag only from thumb
+  thumb.addEventListener('mousedown', e => {
+    e.preventDefault();
+    const rect = el.getBoundingClientRect();
+    function onMove(e) {
+      const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+      setVal(min + (x / rect.width) * (max - min));
+    }
+    function onUp() {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  // Touch support
+  thumb.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const rect = el.getBoundingClientRect();
+    function onMove(e) {
+      const x = Math.min(Math.max(e.touches[0].clientX - rect.left, 0), rect.width);
+      setVal(min + (x / rect.width) * (max - min));
+    }
+    function onUp() {
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+    }
+    document.addEventListener('touchmove', onMove, { passive:false });
+    document.addEventListener('touchend', onUp);
+  });
+}
+
+document.querySelectorAll('.custom-slider').forEach(initCustomSlider);
 
 /* INIT */
 // Pré-remplir date début salaison avec aujourd'hui
