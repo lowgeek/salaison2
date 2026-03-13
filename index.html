@@ -16,6 +16,8 @@
       --brown-mid:  #6B3020;
       --gold:       #C8973A;
       --ok:         #4A7C3A;
+      --salt:       #4A6B8A;
+      --salt-light: #6B9AB8;
       --text:       #3D1C0D;
       --text-light: #7A5040;
       --border:     #D4B896;
@@ -127,6 +129,17 @@
     .time-days { font-family:'Playfair Display',serif; font-size:1.8em; font-weight:900; line-height:1; }
     .time-date { margin-top:8px; font-size:14px; opacity:0.8; }
 
+    /* SEND TO SUIVI BUTTON */
+    .btn-send-suivi {
+      width:100%; margin-top:14px; padding:12px;
+      background:linear-gradient(135deg, var(--salt), var(--salt-light));
+      color:white; border:none; border-radius:10px;
+      font-family:'Lato',sans-serif; font-weight:700; font-size:14px;
+      cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .btn-send-suivi:hover { filter:brightness(1.1); transform:translateY(-1px); }
+    .btn-send-suivi:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
+
     /* SUIVI FORM */
     .suivi-form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .form-field { display:flex; flex-direction:column; gap:5px; }
@@ -142,8 +155,30 @@
     .btn-del { background:transparent; border:1px solid #dc3545; color:#dc3545; border-radius:6px; padding:4px 9px; font-size:11px; cursor:pointer; font-family:'Lato',sans-serif; font-weight:700; transition:all 0.15s; white-space:nowrap; }
     .btn-del:hover { background:#dc3545; color:white; }
 
+    /* PHASE BADGE */
+    .phase-badge {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:3px 10px; border-radius:20px;
+      font-size:11px; font-weight:700; letter-spacing:0.5px;
+    }
+    .phase-badge.salaison {
+      background:rgba(74,107,138,0.15); color:var(--salt);
+      border:1px solid rgba(74,107,138,0.3);
+    }
+    .phase-badge.sechage {
+      background:rgba(196,97,58,0.12); color:var(--terracotta);
+      border:1px solid rgba(196,97,58,0.25);
+    }
+    .phase-badge.done {
+      background:rgba(74,124,58,0.12); color:var(--ok);
+      border:1px solid rgba(74,124,58,0.25);
+    }
+
     /* PRODUCT CARDS */
     .product-card { background:var(--cream); border-radius:16px; margin-bottom:14px; border:1px solid var(--parchment); overflow:hidden; }
+    .product-card.phase-salaison { border-left:4px solid var(--salt); }
+    .product-card.phase-sechage  { border-left:4px solid var(--terracotta); }
+    .product-card.phase-done     { border-left:4px solid var(--ok); }
     .product-header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; transition:background 0.15s; }
     .product-header:hover { background:rgba(0,0,0,0.02); }
     .product-name { font-family:'Playfair Display',serif; font-size:1.15em; font-weight:700; color:var(--brick); }
@@ -158,6 +193,25 @@
     .progress-track { height:9px; background:var(--parchment); border-radius:5px; overflow:hidden; }
     .progress-fill { height:100%; background:linear-gradient(90deg,var(--terracotta),var(--gold)); border-radius:5px; transition:width 0.5s ease; }
     .progress-fill.done { background:linear-gradient(90deg,var(--ok),#7CB85C); }
+    .progress-fill.salt { background:linear-gradient(90deg,var(--salt),var(--salt-light)); }
+
+    /* SALAISON COUNTDOWN */
+    .salaison-countdown {
+      margin:0 20px 16px;
+      background:linear-gradient(135deg, var(--salt), #2A4B6A);
+      border-radius:12px; padding:14px 18px; color:white;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .countdown-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.7; margin-bottom:3px; }
+    .countdown-days { font-family:'Playfair Display',serif; font-size:1.6em; font-weight:900; line-height:1; }
+    .countdown-date { font-size:12px; opacity:0.75; margin-top:3px; }
+    .btn-passer-sechage {
+      background:white; color:var(--salt);
+      border:none; border-radius:9px; padding:9px 14px;
+      font-family:'Lato',sans-serif; font-weight:700; font-size:12px;
+      cursor:pointer; transition:all 0.2s; white-space:nowrap; flex-shrink:0;
+    }
+    .btn-passer-sechage:hover { background:var(--cream); transform:translateY(-1px); }
 
     /* PRODUCT BODY */
     .product-body { border-top:1px solid var(--parchment); padding:20px; display:none; }
@@ -168,6 +222,7 @@
     .pesee-row.hdr { background:var(--parchment); font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-light); }
     .pesee-row.data { background:white; border:1px solid var(--border); }
     .pesee-row.init { background:rgba(139,53,37,0.07); border:1px solid rgba(139,53,37,0.15); }
+    .pesee-row.init-salt { background:rgba(74,107,138,0.07); border:1px solid rgba(74,107,138,0.2); }
     .pesee-weight { font-weight:700; color:var(--text); }
     .pesee-loss { font-weight:700; color:var(--ok); font-size:12px; }
 
@@ -199,11 +254,25 @@
     .modal-field input:focus { outline:none; border-color:var(--terracotta); }
     .modal-actions { display:flex; gap:10px; margin-top:20px; }
 
+    /* MODAL SECHAGE */
+    .modal-sechage-header {
+      display:flex; align-items:center; gap:10px; margin-bottom:8px;
+    }
+    .modal-sechage-header .phase-badge { font-size:12px; padding:4px 12px; }
+    .modal-info-box {
+      background:rgba(74,107,138,0.08); border:1px solid rgba(74,107,138,0.2);
+      border-radius:10px; padding:12px 14px; margin-bottom:16px;
+      font-size:13px; color:var(--text-light); line-height:1.5;
+    }
+    .modal-info-box strong { color:var(--salt); }
+
     @media(max-width:480px) {
       .suivi-form { grid-template-columns:1fr; }
       .pesee-form { grid-template-columns:1fr 1fr; }
       .pesee-form .btn-primary { grid-column:1/-1; }
       .pesee-row { grid-template-columns:1fr 70px 80px 28px; }
+      .salaison-countdown { flex-direction:column; gap:12px; align-items:flex-start; }
+      .btn-passer-sechage { width:100%; text-align:center; }
     }
   </style>
 </head>
@@ -290,6 +359,9 @@
         <div class="time-days" id="t-jours">—</div>
         <div class="time-date" id="t-date"></div>
       </div>
+      <button class="btn-send-suivi" id="btnEnvoiSuivi" onclick="ouvrirEnvoiSuivi()" disabled>
+        🧂 Créer un suivi salaison avec ces paramètres
+      </button>
     </div>
 
   </div>
@@ -298,19 +370,23 @@
   <div class="tab-panel" id="tab-suivi">
 
     <div class="card">
-      <div class="card-title">➕ Nouveau produit</div>
+      <div class="card-title">➕ Nouveau produit en séchage</div>
       <div class="suivi-form">
         <div class="form-field" style="grid-column:1/-1">
           <label>Nom</label>
           <input type="text" id="newNom" placeholder="Ex : Coppa — Janvier 2026">
         </div>
         <div class="form-field">
-          <label>Poids initial (g)</label>
+          <label>Poids de mise en séchage (g)</label>
           <input type="number" id="newPoids" placeholder="1200" min="1">
         </div>
         <div class="form-field">
           <label>Perte cible (%)</label>
           <input type="number" id="newCible" placeholder="40" min="5" max="60" value="40">
+        </div>
+        <div class="form-field">
+          <label>Date de mise en séchage</label>
+          <input type="date" id="newDateDebut">
         </div>
       </div>
       <div style="margin-top:14px;">
@@ -348,11 +424,61 @@
   </div>
 </div>
 
+<!-- MODAL ENVOI SUIVI (depuis calculateur) -->
+<div class="modal-overlay" id="envoiSuiviModal">
+  <div class="modal">
+    <div class="modal-sechage-header">
+      <h2>🧂 Créer un suivi</h2>
+      <span class="phase-badge salaison">Salaison</span>
+    </div>
+    <p class="modal-desc">
+      Les paramètres du calculateur sont pré-remplis. Donnez un nom à votre pièce.
+    </p>
+    <div class="modal-field">
+      <label>Nom de la pièce</label>
+      <input type="text" id="es-nom" placeholder="Ex : Longe de porc — Mars 2026">
+    </div>
+    <div class="modal-field">
+      <label>Date de début de salaison</label>
+      <input type="date" id="es-date">
+    </div>
+    <div class="modal-info-box" id="es-recap"></div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="confirmerEnvoiSuivi()">Créer le suivi</button>
+      <button class="btn-ghost" onclick="document.getElementById('envoiSuiviModal').classList.remove('open')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PASSER EN SÉCHAGE -->
+<div class="modal-overlay" id="sechageModal">
+  <div class="modal">
+    <div class="modal-sechage-header">
+      <h2>💨 Passer au séchage</h2>
+      <span class="phase-badge sechage">Séchage</span>
+    </div>
+    <div class="modal-info-box" id="sechage-info"></div>
+    <div class="modal-field">
+      <label>Poids de mise en séchage (g)</label>
+      <input type="number" id="sechage-poids" placeholder="Ex : 1150" min="1">
+    </div>
+    <div class="modal-field">
+      <label>Date de mise en séchage</label>
+      <input type="date" id="sechage-date">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="confirmerSechage()">Lancer le séchage</button>
+      <button class="btn-ghost" onclick="closeSechageModal()">Annuler</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* STATE */
 let poids = 0, sel = 4.5, dia = 0;
 let suivis = [], charts = {};
 let openCards = new Set();
+let sechageTargetId = null;
 const JSONBIN = 'https://api.jsonbin.io/v3/b/';
 let cfg = { key: localStorage.getItem('sal_key')||'', bin: localStorage.getItem('sal_bin')||'' };
 
@@ -418,7 +544,8 @@ function ajustPoids(d) {
   calculer();
 }
 function manualPoids() {
-  poids = Math.max(0, parseFloat(document.getElementById('poidsManuel').value)||0);
+  const v = document.getElementById('poidsManuel').value;
+  poids = v === '' ? 0 : Math.max(0, parseFloat(v)||0);
   document.getElementById('poidsDisplay').textContent = poids;
   calculer();
 }
@@ -438,29 +565,105 @@ function calculer() {
   document.getElementById('r-sucre').textContent  = g(2);
   document.getElementById('r-poivre').textContent = g(1);
   document.getElementById('r-epices').textContent = g(0.5);
+  updateEnvoiBtn();
 }
 function calculerDuree() {
-  const j = dia===0 ? 0 : Math.round(dia+1);
+  const j = dia < 1 ? 0 : Math.round(dia) + 1;
   const jEl = document.getElementById('t-jours');
   const dEl = document.getElementById('t-date');
-  if (j===0) { jEl.textContent='—'; dEl.textContent=''; return; }
+  if (j === 0) { jEl.textContent='—'; dEl.textContent=''; updateEnvoiBtn(); return; }
   jEl.textContent = j+(j===1?' jour':' jours');
   const fin = new Date(); fin.setDate(fin.getDate()+j);
-  dEl.textContent = '📅 Prêt le '+fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  dEl.textContent = '📅 Fin de salaison le '+fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  updateEnvoiBtn();
+}
+function updateEnvoiBtn() {
+  const btn = document.getElementById('btnEnvoiSuivi');
+  btn.disabled = !(poids > 0 && dia >= 1);
+}
+
+/* ENVOI DEPUIS CALCULATEUR */
+function ouvrirEnvoiSuivi() {
+  if (!poids || dia < 1) return;
+  const j = Math.round(dia) + 1;
+  const fin = new Date(); fin.setDate(fin.getDate()+j);
+  const finStr = fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('es-recap').innerHTML =
+    `<strong>Poids :</strong> ${poids} g &nbsp;·&nbsp; <strong>Sel :</strong> ${sel.toFixed(1)}%<br>
+     <strong>Diamètre :</strong> ${dia} cm &nbsp;·&nbsp; <strong>Durée :</strong> ${Math.round(dia)+1} jours`;
+  document.getElementById('es-nom').value = '';
+  document.getElementById('es-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('envoiSuiviModal').classList.add('open');
+}
+function confirmerEnvoiSuivi() {
+  const nom = document.getElementById('es-nom').value.trim();
+  if (!nom) { document.getElementById('es-nom').focus(); return; }
+  const dateVal = document.getElementById('es-date').value || new Date().toISOString().split('T')[0];
+  const dateDebutObj = new Date(dateVal+'T12:00:00');
+  const dateTSDebut  = dateDebutObj.getTime();
+  const dateDebut    = dateDebutObj.toLocaleDateString('fr-FR');
+  const j = Math.round(dia) + 1;
+  const finTS = dateTSDebut + j * 86400000;
+  const finDate = new Date(finTS);
+  const finStr = finDate.toISOString().split('T')[0];
+  suivis.push({
+    id: Date.now(),
+    nom,
+    phase: 'salaison',
+    poidsAvantSalaison: poids,
+    poidsDebutSechage: null,
+    perteCible: 40,
+    dateDebut,
+    dateTSDebut,
+    dateDebutISO: dateVal,
+    dateFinSalaisonISO: finStr,
+    dateTSFinSalaison: finTS,
+    dateDebutSechage: null,
+    dateTSDebutSechage: null,
+    pesees: []
+  });
+  document.getElementById('envoiSuiviModal').classList.remove('open');
+  saveData(); renderSuivis();
+  // Basculer sur l'onglet suivi
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-suivi').classList.add('active');
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
 }
 
 /* SUIVI CRUD */
 function ajouterSuivi() {
-  const nom  = document.getElementById('newNom').value.trim();
-  const pi   = parseFloat(document.getElementById('newPoids').value);
-  const cible= parseFloat(document.getElementById('newCible').value)||40;
-  if (!nom||!pi||pi<=0) { alert('Remplissez le nom et le poids initial.'); return; }
-  suivis.push({ id:Date.now(), nom, poidsInitial:pi, perteCible:Math.min(60,Math.max(5,cible)),
-    dateDebut:new Date().toLocaleDateString('fr-FR'), dateTSDebut:Date.now(), pesees:[] });
+  const nom   = document.getElementById('newNom').value.trim();
+  const pi    = parseFloat(document.getElementById('newPoids').value);
+  const cible = parseFloat(document.getElementById('newCible').value)||40;
+  const dateDebutVal = document.getElementById('newDateDebut').value;
+
+  if (!nom||!pi||pi<=0) { alert('Remplissez le nom et le poids de mise en séchage.'); return; }
+
+  const dateDebutISO = dateDebutVal || new Date().toISOString().split('T')[0];
+  const dateDebutObj = new Date(dateDebutISO+'T12:00:00');
+  const dateTSDebut  = dateDebutObj.getTime();
+  const dateDebut    = dateDebutObj.toLocaleDateString('fr-FR');
+
+  suivis.push({
+    id: Date.now(), nom,
+    phase: 'sechage',
+    poidsAvantSalaison: pi,
+    poidsDebutSechage: pi,
+    perteCible: Math.min(60, Math.max(5, cible)),
+    dateDebut, dateTSDebut, dateDebutISO,
+    dateFinSalaisonISO: null, dateTSFinSalaison: null,
+    dateDebutSechage: dateDebut,
+    dateTSDebutSechage: dateTSDebut,
+    pesees: []
+  });
+
   document.getElementById('newNom').value='';
   document.getElementById('newPoids').value='';
+  document.getElementById('newDateDebut').value='';
   saveData(); renderSuivis();
 }
+
 function supprimerSuivi(id) {
   if (!confirm('Supprimer définitivement ce suivi ?')) return;
   if (charts[id]) { charts[id].destroy(); delete charts[id]; }
@@ -468,9 +671,10 @@ function supprimerSuivi(id) {
   suivis = suivis.filter(s=>s.id!==id);
   saveData(); renderSuivis();
 }
+
 function ajouterPesee(id) {
-  const dateEl = document.getElementById('pd-'+id);
-  const poidsEl= document.getElementById('pp-'+id);
+  const dateEl  = document.getElementById('pd-'+id);
+  const poidsEl = document.getElementById('pp-'+id);
   const p = parseFloat(poidsEl.value);
   if (!p||p<=0) { poidsEl.focus(); return; }
   const suivi = suivis.find(s=>s.id===id); if(!suivi)return;
@@ -479,27 +683,63 @@ function ajouterPesee(id) {
     const d = new Date(dateEl.value+'T12:00:00');
     dateStr = d.toLocaleDateString('fr-FR');
   } else dateStr = new Date().toLocaleDateString('fr-FR');
-  suivi.pesees.push({date:dateStr, poids:p, ts:Date.now()});
+  suivi.pesees.push({id: Date.now(), date:dateStr, poids:p});
   poidsEl.value='';
   openCards.add(id);
   saveData(); renderSuivis();
 }
-function supprimerPesee(sid, idx) {
+
+function supprimerPesee(sid, pid) {
   const s = suivis.find(s=>s.id===sid); if(!s)return;
-  s.pesees.splice(idx,1);
+  s.pesees = s.pesees.filter(p=>p.id!==pid);
   openCards.add(sid);
+  saveData(); renderSuivis();
+}
+
+/* PASSER EN SÉCHAGE */
+function ouvrirSechage(id) {
+  sechageTargetId = id;
+  const s = suivis.find(s=>s.id===id); if(!s)return;
+  document.getElementById('sechage-info').innerHTML =
+    `<strong>${s.nom}</strong><br>
+     Poids avant salaison : <strong>${s.poidsAvantSalaison} g</strong><br>
+     Renseignez le poids réel après salaison pour démarrer le suivi de perte.`;
+  document.getElementById('sechage-poids').value='';
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('sechage-date').value = today;
+  document.getElementById('sechageModal').classList.add('open');
+}
+function closeSechageModal() {
+  document.getElementById('sechageModal').classList.remove('open');
+  sechageTargetId = null;
+}
+function confirmerSechage() {
+  if (!sechageTargetId) return;
+  const p = parseFloat(document.getElementById('sechage-poids').value);
+  const dateVal = document.getElementById('sechage-date').value;
+  if (!p||p<=0) { document.getElementById('sechage-poids').focus(); return; }
+  const s = suivis.find(s=>s.id===sechageTargetId); if(!s)return;
+  const dateObj = new Date((dateVal||new Date().toISOString().split('T')[0])+'T12:00:00');
+  s.phase = 'sechage';
+  s.poidsDebutSechage = p;
+  s.dateDebutSechage = dateObj.toLocaleDateString('fr-FR');
+  s.dateTSDebutSechage = dateObj.getTime();
+  s.pesees = [];
+  openCards.add(sechageTargetId);
+  closeSechageModal();
   saveData(); renderSuivis();
 }
 
 /* CHART */
 function renderChart(id) {
   const s = suivis.find(s=>s.id===id);
-  if (!s||s.pesees.length===0) return;
+  if (!s||s.phase!=='sechage'||s.pesees.length===0) return;
   const canvas = document.getElementById('chart-'+id); if(!canvas)return;
   if (charts[id]) charts[id].destroy();
-  const cible = Math.round(s.poidsInitial*(1-s.perteCible/100));
-  const labels = [s.dateDebut, ...s.pesees.map(p=>p.date)];
-  const data   = [s.poidsInitial, ...s.pesees.map(p=>p.poids)];
+  const piSechage = s.poidsDebutSechage || s.poidsAvantSalaison;
+  const cible = Math.round(piSechage*(1-s.perteCible/100));
+  const labels = [s.dateDebutSechage||s.dateDebut, ...s.pesees.map(p=>p.date)];
+  const data   = [piSechage, ...s.pesees.map(p=>p.poids)];
   charts[id] = new Chart(canvas, {
     type:'line',
     data:{ labels, datasets:[
@@ -525,14 +765,21 @@ function renderChart(id) {
 
 /* TOGGLE */
 function toggleCard(id) {
-  const body  = document.getElementById('body-'+id);
-  const chev  = document.getElementById('chev-'+id);
+  const body = document.getElementById('body-'+id);
+  const chev = document.getElementById('chev-'+id);
   if (!body) return;
   if (openCards.has(id)) {
     openCards.delete(id); body.classList.remove('open'); chev.classList.remove('open');
   } else {
     openCards.add(id); body.classList.add('open'); chev.classList.add('open'); renderChart(id);
   }
+}
+
+/* COUNTDOWN SALAISON */
+function countdownSalaison(s) {
+  if (!s.dateTSFinSalaison) return null;
+  const reste = Math.ceil((s.dateTSFinSalaison - Date.now()) / 86400000);
+  return reste;
 }
 
 /* RENDER SUIVIS */
@@ -545,61 +792,134 @@ function renderSuivis() {
       <div class="empty-sub">Ajoutez votre première pièce ci-dessus</div>
     </div>`; return;
   }
+
   const today = new Date().toISOString().split('T')[0];
+
   list.innerHTML = suivis.map(s => {
-    const cible     = Math.round(s.poidsInitial*(1-s.perteCible/100));
-    const last      = s.pesees.length>0 ? s.pesees[s.pesees.length-1].poids : s.poidsInitial;
-    const perteAbs  = s.poidsInitial-last;
-    const cibleAbs  = s.poidsInitial-cible;
-    const prog      = cibleAbs>0 ? Math.min(100,Math.round(perteAbs/cibleAbs*100)) : 0;
-    const done      = prog>=100;
-    const isOpen    = openCards.has(s.id);
-    let jours='?';
+    const isSalaison = s.phase === 'salaison';
+    const isSechage  = s.phase === 'sechage';
+
+    // Calculs de progression (séchage uniquement)
+    const piSechage = s.poidsDebutSechage || s.poidsAvantSalaison;
+    const cible     = Math.round(piSechage*(1-s.perteCible/100));
+    const last      = s.pesees.length>0 ? s.pesees[s.pesees.length-1].poids : piSechage;
+    const perteAbs  = piSechage - last;
+    const cibleAbs  = piSechage - cible;
+    const prog      = isSechage && cibleAbs>0 ? Math.min(100,Math.round(perteAbs/cibleAbs*100)) : 0;
+    const done      = isSechage && prog>=100;
+
+    // Durée — depuis la salaison si en salaison, depuis le séchage si en séchage
+    let jours='?', dateAffichee='';
     try {
-      const ref = s.dateTSDebut ? s.dateTSDebut : (() => { const p=s.dateDebut.split('/'); return new Date(p[2],p[1]-1,p[0]).getTime(); })();
+      const ref = isSechage && s.dateTSDebutSechage ? s.dateTSDebutSechage : (s.dateTSDebut || Date.now());
       jours = Math.floor((Date.now()-ref)/86400000);
-    } catch(e){}
+      dateAffichee = isSechage && s.dateDebutSechage ? s.dateDebutSechage : s.dateDebut;
+    } catch(e){ dateAffichee = s.dateDebut; }
 
-    const peseeRows = s.pesees.map((p,i)=>{
-      const perte = s.poidsInitial-p.poids;
-      const pct   = ((perte/s.poidsInitial)*100).toFixed(1);
-      return `<div class="pesee-row data">
-        <span style="color:var(--text-light)">${p.date}</span>
-        <span class="pesee-weight">${p.poids} g</span>
-        <span class="pesee-loss">−${perte} g (${pct}%)</span>
-        <button class="btn-del" onclick="supprimerPesee(${s.id},${i})">×</button>
-      </div>`;
-    }).join('');
+    const isOpen = openCards.has(s.id);
 
-    return `<div class="product-card">
-      <div class="product-header" onclick="toggleCard(${s.id})">
+    // Phase badge
+    let badge, cardClass;
+    if (done)          { badge=`<span class="phase-badge done">✅ Prêt</span>`;          cardClass='phase-done'; }
+    else if(isSalaison){ badge=`<span class="phase-badge salaison">🧂 Salaison</span>`;  cardClass='phase-salaison'; }
+    else               { badge=`<span class="phase-badge sechage">💨 Séchage</span>`;    cardClass='phase-sechage'; }
+
+    // Countdown salaison
+    let countdownHtml = '';
+    if (isSalaison) {
+      const reste = countdownSalaison(s);
+      const finStr = s.dateFinSalaisonISO
+        ? new Date(s.dateFinSalaisonISO+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long'})
+        : '';
+      let joursLabel, urgence='';
+      if (reste === null)  joursLabel = '— jours';
+      else if (reste <= 0) { joursLabel = 'Terminée !'; urgence='font-size:1.1em;'; }
+      else joursLabel = reste+(reste===1?' jour':' jours');
+      countdownHtml = `<div class="salaison-countdown">
         <div>
-          <div class="product-name">${s.nom}</div>
-          <div class="product-meta">Depuis le ${s.dateDebut} · ${jours} j · ${s.pesees.length} pesée(s)</div>
+          <div class="countdown-label">Fin de salaison dans</div>
+          <div class="countdown-days" style="${urgence}">${joursLabel}</div>
+          ${finStr ? `<div class="countdown-date">📅 ${finStr}</div>` : ''}
         </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-family:'Playfair Display',serif;font-size:1.05em;font-weight:700;color:${done?'var(--ok)':'var(--terracotta)'}">
-            ${done?'✅ Prêt':prog+'%'}
-          </span>
-          <span class="chevron ${isOpen?'open':''}" id="chev-${s.id}">▼</span>
+        <div style="text-align:center;">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.7;margin-bottom:3px;">Poids</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.4em;font-weight:900;line-height:1;">${s.poidsAvantSalaison} g</div>
         </div>
-      </div>
-      <div class="product-progress">
+        <button class="btn-passer-sechage" onclick="event.stopPropagation();ouvrirSechage(${s.id})">
+          💨 Passer au séchage
+        </button>
+      </div>`;
+    }
+
+    // Barre de progression
+    let progressHtml = '';
+    if (isSechage) {
+      const pertePct = piSechage > 0 ? ((perteAbs / piSechage) * 100).toFixed(1) : '0.0';
+      progressHtml = `<div class="product-progress">
         <div class="progress-labels">
-          <span>${s.poidsInitial} g → ${cible} g (−${s.perteCible}%)</span>
-          <span class="progress-pct">Actuel : ${last} g</span>
+          <span>${piSechage} g → ${cible} g (−${s.perteCible}%)</span>
+          <span class="progress-pct">Actuel : ${last} g &nbsp;·&nbsp; −${pertePct}%</span>
         </div>
         <div class="progress-track">
           <div class="progress-fill ${done?'done':''}" style="width:${prog}%"></div>
         </div>
-      </div>
-      <div class="product-body ${isOpen?'open':''}" id="body-${s.id}">
+      </div>`;
+    } else {
+      // Salaison : barre de temps écoulé
+      const reste = countdownSalaison(s);
+      const tsDebut = s.dateTSDebut || Date.now();
+      const tsEnd   = s.dateTSFinSalaison;
+      let tprog = 0;
+      if (tsEnd) {
+        const total = tsEnd - tsDebut;
+        const elapsed = Date.now() - tsDebut;
+        tprog = Math.min(100, Math.max(0, Math.round(elapsed/total*100)));
+      }
+      progressHtml = `<div class="product-progress">
+        <div class="progress-labels">
+          <span style="color:var(--salt);font-weight:700">Temps de salaison écoulé</span>
+          <span style="color:var(--salt);font-weight:700">${tprog}%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill salt" style="width:${tprog}%"></div>
+        </div>
+      </div>`;
+    }
+
+    // Pesées (séchage uniquement)
+    let peseeRows = '';
+    if (isSechage) {
+      peseeRows = s.pesees.map(p=>{
+        const perte = piSechage - p.poids;
+        const pct   = ((perte/piSechage)*100).toFixed(1);
+        return `<div class="pesee-row data">
+          <span style="color:var(--text-light)">${p.date}</span>
+          <span class="pesee-weight">${p.poids} g</span>
+          <span class="pesee-loss">−${perte} g (${pct}%)</span>
+          <button class="btn-del" onclick="supprimerPesee(${s.id},${p.id})">×</button>
+        </div>`;
+      }).join('');
+    }
+
+    // Contenu body
+    let bodyContent = '';
+    if (isSalaison) {
+      bodyContent = `<p style="font-size:13px;color:var(--text-light);padding:4px 0 8px;line-height:1.6;">
+        🧂 Poids avant salaison : <strong>${s.poidsAvantSalaison} g</strong><br>
+        Renseignez le poids après salaison lors du passage en séchage.
+      </p>`;
+    } else {
+      const piLabel = s.poidsAvantSalaison !== piSechage
+        ? `<div class="pesee-row init-salt"><span style="color:var(--text-light)">🏁 Avant salaison</span><span class="pesee-weight">${s.poidsAvantSalaison} g</span><span class="pesee-loss">—</span><span></span></div>`
+        : '';
+      bodyContent = `
         <div style="margin-bottom:4px;">
           <div class="pesee-row hdr"><span>Date</span><span>Poids</span><span>Perte totale</span><span></span></div>
+          ${piLabel}
           <div class="pesee-row init">
-            <span>🏁 ${s.dateDebut}</span>
-            <span class="pesee-weight">${s.poidsInitial} g</span>
-            <span class="pesee-loss">—</span><span></span>
+            <span>🚀 ${s.dateDebutSechage||s.dateDebut}</span>
+            <span class="pesee-weight">${piSechage} g</span>
+            <span class="pesee-loss">— début séchage</span><span></span>
           </div>
           ${peseeRows}
         </div>
@@ -618,7 +938,24 @@ function renderSuivis() {
         ${s.pesees.length>0
           ? `<div class="chart-wrapper"><canvas id="chart-${s.id}"></canvas></div>`
           : `<p style="text-align:center;color:var(--text-light);font-size:13px;padding:8px 0 4px;">📈 Graphique disponible après la première pesée</p>`
-        }
+        }`;
+    }
+
+    return `<div class="product-card ${cardClass}">
+      <div class="product-header" onclick="toggleCard(${s.id})">
+        <div>
+          <div class="product-name">${s.nom}</div>
+          <div class="product-meta" style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+            ${badge}
+            <span>Depuis le ${dateAffichee} · ${jours} j</span>
+          </div>
+        </div>
+        <span class="chevron ${isOpen?'open':''}" id="chev-${s.id}">▼</span>
+      </div>
+      ${countdownHtml}
+      ${progressHtml}
+      <div class="product-body ${isOpen?'open':''}" id="body-${s.id}">
+        ${bodyContent}
         <div style="text-align:right;margin-top:16px;">
           <button class="btn-del" onclick="supprimerSuivi(${s.id})">🗑️ Supprimer ce suivi</button>
         </div>
@@ -633,6 +970,8 @@ function renderSuivis() {
 }
 
 /* INIT */
+// Pré-remplir date début salaison avec aujourd'hui
+document.getElementById('newDateDebut').value = new Date().toISOString().split('T')[0];
 calculer(); calculerDuree();
 if (cfg.key&&cfg.bin) loadData();
 else { setSync('error','Non configuré — cliquez sur ⚙️'); renderSuivis(); }
