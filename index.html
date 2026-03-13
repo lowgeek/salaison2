@@ -809,7 +809,24 @@ function renderSuivis() {
 
   const today = new Date().toISOString().split('T')[0];
 
-  list.innerHTML = suivis.map(s => {
+  // Tri dynamique : progression décroissante toutes phases confondues
+  // Salaison : % du temps écoulé / Séchage : % de perte vers objectif
+  const sorted = [...suivis].sort((a, b) => {
+    const progOf = s => {
+      if (s.phase === 'salaison') {
+        if (!s.dateTSFinSalaison || !s.dateTSDebut) return 0;
+        const total = s.dateTSFinSalaison - s.dateTSDebut;
+        return total > 0 ? Math.min(100, (Date.now() - s.dateTSDebut) / total * 100) : 0;
+      }
+      const pi = s.poidsDebutSechage || s.poidsAvantSalaison;
+      const last = s.pesees.length > 0 ? s.pesees[s.pesees.length-1].poids : pi;
+      const cibleAbs = pi - Math.round(pi*(1-s.perteCible/100));
+      return cibleAbs > 0 ? Math.min(100, (pi - last) / cibleAbs * 100) : 0;
+    };
+    return progOf(b) - progOf(a);
+  });
+
+  list.innerHTML = sorted.map(s => {
     const isSalaison = s.phase === 'salaison';
     const isSechage  = s.phase === 'sechage';
 
@@ -872,7 +889,7 @@ function renderSuivis() {
       progressHtml = `<div class="product-progress">
         <div class="progress-labels">
           <span>${piSechage} g → ${cible} g (−${s.perteCible}%)</span>
-          <span class="progress-pct">Actuel : ${last} g &nbsp;·&nbsp; −${pertePct}%</span>
+          <span class="progress-pct">Actuel : ${last} g &nbsp;·&nbsp; ${prog}%</span>
         </div>
         <div class="progress-track">
           <div class="progress-fill ${done?'done':''}" style="width:${prog}%"></div>
