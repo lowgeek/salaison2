@@ -321,13 +321,13 @@
         <span class="slider-value" id="selVal">4.5%</span>
       </div>
       <input type="range" id="selSlider" min="2" max="8" step="0.1" value="4.5" oninput="updateSel(this.value)">
-      <div class="slider-hints"><span>2% — léger</span><span>4.5% — standard</span><span>8% — fort</span></div>
+      <div class="slider-hints" style="display:grid;grid-template-columns:1fr 1fr 1fr;"><span style="text-align:left">2% — léger</span><span style="text-align:center">4.5% — standard</span><span style="text-align:right">8% — fort</span></div>
     </div>
 
     <div class="card">
       <div class="card-title">📋 Ingrédients à peser</div>
       <div class="results-grid">
-        <div class="result-box hl">
+        <div class="result-box">
           <div class="result-box-label">🧂 Sel</div>
           <div class="result-box-value" id="r-sel">0 g</div>
         </div>
@@ -364,11 +364,6 @@
       </button>
     </div>
 
-  </div>
-
-  <!-- ══ SUIVI ══ -->
-  <div class="tab-panel" id="tab-suivi">
-
     <div class="card">
       <div class="card-title">➕ Nouveau produit en séchage</div>
       <div class="suivi-form">
@@ -393,6 +388,11 @@
         <button class="btn-primary" onclick="ajouterSuivi()">Ajouter ce produit</button>
       </div>
     </div>
+
+  </div>
+
+  <!-- ══ SUIVI ══ -->
+  <div class="tab-panel" id="tab-suivi">
 
     <div id="suiviList"></div>
 
