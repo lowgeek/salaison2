@@ -791,9 +791,10 @@ function toggleCard(id) {
 
 /* COUNTDOWN SALAISON */
 function countdownSalaison(s) {
-  if (!s.dateTSFinSalaison) return null;
-  const reste = Math.ceil((s.dateTSFinSalaison - Date.now()) / 86400000);
-  return reste;
+  if (!s.dateFinSalaisonISO) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const fin   = new Date(s.dateFinSalaisonISO+'T00:00:00'); fin.setHours(0,0,0,0);
+  return Math.round((fin - today) / 86400000);
 }
 
 /* RENDER SUIVIS */
@@ -896,15 +897,15 @@ function renderSuivis() {
         </div>
       </div>`;
     } else {
-      // Salaison : barre de temps écoulé
-      const reste = countdownSalaison(s);
-      const tsDebut = s.dateTSDebut || Date.now();
-      const tsEnd   = s.dateTSFinSalaison;
+      // Salaison : barre de temps écoulé en jours calendaires
       let tprog = 0;
-      if (tsEnd) {
-        const total = tsEnd - tsDebut;
-        const elapsed = Date.now() - tsDebut;
-        tprog = Math.min(100, Math.max(0, Math.round(elapsed/total*100)));
+      if (s.dateDebutISO && s.dateFinSalaisonISO) {
+        const debut = new Date(s.dateDebutISO+'T00:00:00'); debut.setHours(0,0,0,0);
+        const fin   = new Date(s.dateFinSalaisonISO+'T00:00:00'); fin.setHours(0,0,0,0);
+        const today = new Date(); today.setHours(0,0,0,0);
+        const total   = Math.round((fin - debut) / 86400000);
+        const elapsed = Math.round((today - debut) / 86400000);
+        tprog = total > 0 ? Math.min(100, Math.max(0, Math.round(elapsed/total*100))) : 0;
       }
       progressHtml = `<div class="product-progress">
         <div class="progress-labels">
