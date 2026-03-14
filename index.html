@@ -622,7 +622,7 @@ function calculerDuree() {
   if (j === 0) { jEl.textContent='—'; dEl.textContent=''; updateEnvoiBtn(); return; }
   jEl.textContent = j+(j===1?' jour':' jours');
   const fin = new Date(); fin.setDate(fin.getDate()+j);
-  dEl.textContent = '📅 Fin de salaison le '+fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  dEl.textContent = '📅 Fin de salaison le : '+fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   updateEnvoiBtn();
 }
 function updateEnvoiBtn() {
