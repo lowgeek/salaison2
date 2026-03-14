@@ -843,8 +843,14 @@ function renderSuivis() {
     // Durée — depuis la salaison si en salaison, depuis le séchage si en séchage
     let jours='?', dateAffichee='';
     try {
-      const ref = isSechage && s.dateTSDebutSechage ? s.dateTSDebutSechage : (s.dateTSDebut || Date.now());
-      jours = Math.floor((Date.now()-ref)/86400000);
+      const refISO = isSechage && s.dateDebutSechage
+        ? (s.dateTSDebutSechage ? new Date(s.dateTSDebutSechage).toISOString().split('T')[0] : null)
+        : s.dateDebutISO;
+      if (refISO) {
+        const ref = new Date(refISO+'T00:00:00'); ref.setHours(0,0,0,0);
+        const now = new Date(); now.setHours(0,0,0,0);
+        jours = Math.round((now - ref) / 86400000);
+      }
       dateAffichee = isSechage && s.dateDebutSechage ? s.dateDebutSechage : s.dateDebut;
     } catch(e){ dateAffichee = s.dateDebut; }
 
