@@ -193,17 +193,24 @@
 
     /* TAMPON ARTISANAL */
     .stamp {
-      position:absolute; top:50%; right:18px; transform:translateY(-50%) rotate(-18deg);
-      width:72px; height:72px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; margin:0 10px;
+      transform:rotate(-12deg);
+      pointer-events:none;
+      filter: url(#grunge);
+    }
+    .stamp-inner {
       border:3px solid var(--ok);
-      display:flex; align-items:center; justify-content:center; flex-direction:column;
-      opacity:0.18; pointer-events:none; z-index:2;
-      box-shadow: inset 0 0 0 2px var(--ok);
+      outline: 2px solid var(--ok);
+      outline-offset: 3px;
+      padding:5px 10px;
+      display:flex; align-items:center; justify-content:center;
     }
     .stamp-text {
       font-family:'Playfair Display',serif; font-weight:900;
-      font-size:12px; color:var(--ok); letter-spacing:2px;
-      text-transform:uppercase; line-height:1.2; text-align:center;
+      font-size:18px; color:var(--ok); letter-spacing:3px;
+      text-transform:uppercase; line-height:1; text-align:center;
+      opacity:0.55;
     }
     .product-header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; transition:background 0.15s; }
     .product-header:hover { background:rgba(0,0,0,0.02); }
@@ -303,6 +310,13 @@
   </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="grunge">
+    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -8 6" in="noise" result="mask"/>
+    <feComposite in="SourceGraphic" in2="mask" operator="in"/>
+  </filter>
+</svg>
 <div class="app-wrapper">
 
   <header>
@@ -998,7 +1012,6 @@ function renderSuivis() {
     }
 
     return `<div class="product-card ${cardClass}">
-      ${done || salaisonDone ? `<div class="stamp"><div class="stamp-text">PRÊT</div></div>` : ''}
       <div class="product-header" onclick="toggleCard(${s.id})">
         <div>
           <div class="product-name">${s.nom}</div>
@@ -1007,6 +1020,7 @@ function renderSuivis() {
             <span>Depuis le ${dateAffichee} · ${jours} j</span>
           </div>
         </div>
+        ${done || salaisonDone ? `<div class="stamp"><div class="stamp-inner"><div class="stamp-text">PRÊT</div></div></div>` : ''}
         <span class="chevron ${isOpen?'open':''}" id="chev-${s.id}">▼</span>
       </div>
       ${progressHtml}
