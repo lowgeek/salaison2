@@ -186,10 +186,25 @@
     }
 
     /* PRODUCT CARDS */
-    .product-card { background:var(--cream); border-radius:16px; margin-bottom:14px; border:1px solid var(--parchment); overflow:hidden; }
+    .product-card { background:var(--cream); border-radius:16px; margin-bottom:14px; border:1px solid var(--parchment); overflow:hidden; position:relative; }
     .product-card.phase-salaison { border-left:4px solid var(--salt); }
     .product-card.phase-sechage  { border-left:4px solid var(--terracotta); }
     .product-card.phase-done     { border-left:4px solid var(--ok); }
+
+    /* TAMPON ARTISANAL */
+    .stamp {
+      position:absolute; top:50%; right:18px; transform:translateY(-50%) rotate(-18deg);
+      width:72px; height:72px; border-radius:50%;
+      border:3px solid var(--ok);
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      opacity:0.18; pointer-events:none; z-index:2;
+      box-shadow: inset 0 0 0 2px var(--ok);
+    }
+    .stamp-text {
+      font-family:'Playfair Display',serif; font-weight:900;
+      font-size:12px; color:var(--ok); letter-spacing:2px;
+      text-transform:uppercase; line-height:1.2; text-align:center;
+    }
     .product-header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; transition:background 0.15s; }
     .product-header:hover { background:rgba(0,0,0,0.02); }
     .product-name { font-family:'Playfair Display',serif; font-size:1.15em; font-weight:700; color:var(--brick); }
@@ -856,9 +871,21 @@ function renderSuivis() {
 
     const isOpen = openCards.has(s.id);
 
+    // Progression salaison (calendaire) — calculée ici pour le badge
+    let tprog = 0;
+    if (isSalaison && s.dateDebutISO && s.dateFinSalaisonISO) {
+      const debut = new Date(s.dateDebutISO+'T00:00:00'); debut.setHours(0,0,0,0);
+      const fin   = new Date(s.dateFinSalaisonISO+'T00:00:00'); fin.setHours(0,0,0,0);
+      const today = new Date(); today.setHours(0,0,0,0);
+      const total   = Math.round((fin - debut) / 86400000);
+      const elapsed = Math.round((today - debut) / 86400000);
+      tprog = total > 0 ? Math.min(100, Math.max(0, Math.round(elapsed/total*100))) : 0;
+    }
+    const salaisonDone = isSalaison && tprog >= 100;
+
     // Phase badge
     let badge, cardClass;
-    if (done)          { badge=`<span class="phase-badge done">✅ Prêt</span>`;          cardClass='phase-done'; }
+    if (done || salaisonDone) { badge=`<span class="phase-badge done">✅ ${isSalaison ? 'Salaison terminée' : 'Prêt'}</span>`; cardClass='phase-done'; }
     else if(isSalaison){ badge=`<span class="phase-badge salaison">🧂 Salaison</span>`;  cardClass='phase-salaison'; }
     else               { badge=`<span class="phase-badge sechage">💨 Séchage</span>`;    cardClass='phase-sechage'; }
 
@@ -903,23 +930,14 @@ function renderSuivis() {
         </div>
       </div>`;
     } else {
-      // Salaison : barre de temps écoulé en jours calendaires
-      let tprog = 0;
-      if (s.dateDebutISO && s.dateFinSalaisonISO) {
-        const debut = new Date(s.dateDebutISO+'T00:00:00'); debut.setHours(0,0,0,0);
-        const fin   = new Date(s.dateFinSalaisonISO+'T00:00:00'); fin.setHours(0,0,0,0);
-        const today = new Date(); today.setHours(0,0,0,0);
-        const total   = Math.round((fin - debut) / 86400000);
-        const elapsed = Math.round((today - debut) / 86400000);
-        tprog = total > 0 ? Math.min(100, Math.max(0, Math.round(elapsed/total*100))) : 0;
-      }
+      // Salaison : barre de temps écoulé en jours calendaires (tprog déjà calculé)
       progressHtml = `<div class="product-progress">
         <div class="progress-labels">
           <span style="color:var(--salt);font-weight:700">Temps de salaison écoulé</span>
           <span style="color:var(--salt);font-weight:700">${tprog}%</span>
         </div>
         <div class="progress-track">
-          <div class="progress-fill salt" style="width:${tprog}%"></div>
+          <div class="progress-fill ${salaisonDone?'done':'salt'}" style="width:${tprog}%"></div>
         </div>
       </div>`;
     }
@@ -980,6 +998,7 @@ function renderSuivis() {
     }
 
     return `<div class="product-card ${cardClass}">
+      ${done || salaisonDone ? `<div class="stamp"><div class="stamp-text">PRÊT</div></div>` : ''}
       <div class="product-header" onclick="toggleCard(${s.id})">
         <div>
           <div class="product-name">${s.nom}</div>
