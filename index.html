@@ -616,7 +616,7 @@ function calculer() {
   updateEnvoiBtn();
 }
 function calculerDuree() {
-  const j = dia < 1 ? 0 : Math.round(dia) + 1;
+  const j = dia < 1 ? 0 : Math.round(dia / 2) + 1;
   const jEl = document.getElementById('t-jours');
   const dEl = document.getElementById('t-date');
   if (j === 0) { jEl.textContent='—'; dEl.textContent=''; updateEnvoiBtn(); return; }
