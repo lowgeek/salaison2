@@ -529,7 +529,7 @@ let sechageTargetId = null;
 let ghSha = null; // SHA du fichier GitHub (requis pour les mises à jour)
 const GH_REPO  = 'salaison2';
 const GH_FILE  = 'salaison.json';
-let cfg = { key: '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', bin: 'lowgeek' };
+let cfg = { key: localStorage.getItem('sal_key')||'', bin: localStorage.getItem('sal_bin')||'lowgeek' };
 
 function ghApiUrl() {
   return `https://api.github.com/repos/${cfg.bin}/${GH_REPO}/contents/${GH_FILE}`;
@@ -545,6 +545,8 @@ function closeSettings() { document.getElementById('settingsModal').classList.re
 function saveSettings() {
   cfg.key = document.getElementById('cfg-key').value.trim();
   cfg.bin = document.getElementById('cfg-bin').value.trim();
+  localStorage.setItem('sal_key', cfg.key);
+  localStorage.setItem('sal_bin', cfg.bin);
   closeSettings(); loadData();
 }
 
