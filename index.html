@@ -451,19 +451,18 @@
 <!-- MODAL SETTINGS -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal">
-    <h2>⚙️ Synchronisation</h2>
+    <h2>⚙️ Synchronisation GitHub</h2>
     <p class="modal-desc">
-      Créez un compte gratuit sur <a href="https://jsonbin.io" target="_blank">jsonbin.io</a>,
-      puis créez un Bin vide. Renseignez votre <strong>Master Key</strong> et l'<strong>ID du Bin</strong>.
+      Renseignez votre <strong>token GitHub</strong> (fine-grained, accès Contents en lecture/écriture sur le repo <code>salaison2</code>).
       Ces infos sont stockées uniquement dans votre navigateur.
     </p>
     <div class="modal-field">
-      <label>Master Key ($2a$…)</label>
-      <input type="password" id="cfg-key" placeholder="Votre Master Key JSONbin.io">
+      <label>Token GitHub (ghp_…)</label>
+      <input type="password" id="cfg-key" placeholder="ghp_…">
     </div>
     <div class="modal-field">
-      <label>Bin ID</label>
-      <input type="text" id="cfg-bin" placeholder="Ex : 64a3f2c8ace6f33a2b1234ab">
+      <label>Utilisateur GitHub</label>
+      <input type="text" id="cfg-bin" placeholder="ex : lowgeek">
     </div>
     <div class="modal-actions">
       <button class="btn-primary" onclick="saveSettings()">Enregistrer &amp; synchroniser</button>
@@ -527,8 +526,14 @@ let poids = 0, sel = 4.5, dia = 0;
 let suivis = [], charts = {};
 let openCards = new Set();
 let sechageTargetId = null;
-const JSONBIN = 'https://api.jsonbin.io/v3/b/';
-let cfg = { key: localStorage.getItem('sal_key')||'', bin: localStorage.getItem('sal_bin')||'' };
+let ghSha = null; // SHA du fichier GitHub (requis pour les mises à jour)
+const GH_REPO  = 'salaison2';
+const GH_FILE  = 'salaison.json';
+let cfg = { key: localStorage.getItem('sal_key')||'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', bin: localStorage.getItem('sal_bin')||'lowgeek' };
+
+function ghApiUrl() {
+  return `https://api.github.com/repos/${cfg.bin}/${GH_REPO}/contents/${GH_FILE}`;
+}
 
 /* SETTINGS */
 function openSettings() {
@@ -554,9 +559,13 @@ async function loadData() {
   if (!cfg.key||!cfg.bin) { setSync('error','Non configuré — cliquez sur ⚙️'); renderSuivis(); return; }
   setSync('syncing','Chargement…');
   try {
-    const res = await fetch(`${JSONBIN}${cfg.bin}/latest`, { headers:{'X-Master-Key':cfg.key,'X-Bin-Meta':'false'} });
+    const res = await fetch(ghApiUrl(), {
+      headers:{ 'Authorization':'token '+cfg.key, 'Accept':'application/vnd.github.v3+json' }
+    });
     if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
+    const file = await res.json();
+    ghSha = file.sha;
+    const data = JSON.parse(atob(file.content.replace(/\n/g,'')));
     suivis = data.suivis||[];
     setSync('ok',`Synchronisé · ${suivis.length} suivi(s)`);
     renderSuivis();
@@ -566,12 +575,16 @@ async function saveData() {
   if (!cfg.key||!cfg.bin) return;
   setSync('syncing','Sauvegarde…');
   try {
-    const res = await fetch(`${JSONBIN}${cfg.bin}`, {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify({suivis}, null, 2))));
+    const body = { message:'update salaison.json', content, sha: ghSha };
+    const res = await fetch(ghApiUrl(), {
       method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':cfg.key},
-      body: JSON.stringify({suivis})
+      headers:{ 'Authorization':'token '+cfg.key, 'Accept':'application/vnd.github.v3+json', 'Content-Type':'application/json' },
+      body: JSON.stringify(body)
     });
     if (!res.ok) throw new Error(res.status);
+    const file = await res.json();
+    ghSha = file.content.sha; // mettre à jour le SHA après écriture
     setSync('ok',`Synchronisé · ${suivis.length} suivi(s)`);
   } catch(e) { setSync('error','Erreur de sauvegarde'); }
 }
@@ -616,7 +629,7 @@ function calculer() {
   updateEnvoiBtn();
 }
 function calculerDuree() {
-  const j = dia < 1 ? 0 : Math.round(dia / 2) + 1;
+  const j = dia < 1 ? 0 : Math.round(dia/2 + 1);
   const jEl = document.getElementById('t-jours');
   const dEl = document.getElementById('t-date');
   if (j === 0) { jEl.textContent='—'; dEl.textContent=''; updateEnvoiBtn(); return; }
@@ -633,12 +646,12 @@ function updateEnvoiBtn() {
 /* ENVOI DEPUIS CALCULATEUR */
 function ouvrirEnvoiSuivi() {
   if (!poids || dia < 1) return;
-  const j = Math.round(dia) + 1;
+  const j = Math.round(dia/2 + 1);
   const fin = new Date(); fin.setDate(fin.getDate()+j);
   const finStr = fin.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   document.getElementById('es-recap').innerHTML =
     `<strong>Poids :</strong> ${poids} g &nbsp;·&nbsp; <strong>Sel :</strong> ${sel.toFixed(1)}%<br>
-     <strong>Diamètre :</strong> ${dia} cm &nbsp;·&nbsp; <strong>Durée :</strong> ${Math.round(dia)+1} jours`;
+     <strong>Diamètre :</strong> ${dia} cm &nbsp;·&nbsp; <strong>Durée :</strong> ${Math.round(dia/2 + 1)} jours`;
   document.getElementById('es-nom').value = '';
   document.getElementById('es-date').value = new Date().toISOString().split('T')[0];
   document.getElementById('envoiSuiviModal').classList.add('open');
@@ -650,7 +663,7 @@ function confirmerEnvoiSuivi() {
   const dateDebutObj = new Date(dateVal+'T12:00:00');
   const dateTSDebut  = dateDebutObj.getTime();
   const dateDebut    = dateDebutObj.toLocaleDateString('fr-FR');
-  const j = Math.round(dia) + 1;
+  const j = Math.round(dia/2 + 1);
   const finTS = dateTSDebut + j * 86400000;
   const finDate = new Date(finTS);
   const finStr = finDate.toISOString().split('T')[0];
