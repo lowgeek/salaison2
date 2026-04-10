@@ -63,9 +63,9 @@
       "dateTSDebutSechage": 1775556000000,
       "pesees": [
         {
-          "id": 1775816437571,
+          "id": 1775816445576,
           "date": "10/04/2026",
-          "poids": 365
+          "poids": 313
         }
       ]
     },
@@ -127,7 +127,13 @@
       "dateTSFinSalaison": 1775901600000,
       "dateDebutSechage": "07/04/2026",
       "dateTSDebutSechage": 1775556000000,
-      "pesees": []
+      "pesees": [
+        {
+          "id": 1775816477721,
+          "date": "10/04/2026",
+          "poids": 224
+        }
+      ]
     },
     {
       "id": 1775313682174,
