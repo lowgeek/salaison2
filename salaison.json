@@ -213,43 +213,6 @@
       ]
     },
     {
-      "id": 1775314027667,
-      "nom": "HDP 3",
-      "phase": "sechage",
-      "poidsAvantSalaison": 284,
-      "poidsDebutSechage": 277,
-      "perteCible": 40,
-      "dateDebut": "04/04/2026",
-      "dateTSDebut": 1775296800000,
-      "dateDebutISO": "2026-04-04",
-      "dateFinSalaisonISO": "2026-04-09",
-      "dateTSFinSalaison": 1775728800000,
-      "dateDebutSechage": "07/04/2026",
-      "dateTSDebutSechage": 1775556000000,
-      "pesees": [
-        {
-          "id": 1775816512545,
-          "date": "10/04/2026",
-          "poids": 224
-        },
-        {
-          "id": 1776077765114,
-          "date": "13/04/2026",
-          "poids": 188
-        },
-        {
-          "id": 1776162292468,
-          "date": "14/04/2026",
-          "poids": 180
-        },
-        {
-          "id": 1776336450420,
-          "date": "16/04/2026",
-          "poids": 165
-        }
-      ]
-    },
-    {
       "id": 1775314339208,
       "nom": "HDP 4",
       "phase": "sechage",
