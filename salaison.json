@@ -147,38 +147,6 @@
           "poids": 190
         }
       ]
-    },
-    {
-      "id": 1775313682174,
-      "nom": "HDP 2",
-      "phase": "sechage",
-      "poidsAvantSalaison": 197,
-      "poidsDebutSechage": 191,
-      "perteCible": 40,
-      "dateDebut": "04/04/2026",
-      "dateTSDebut": 1775296800000,
-      "dateDebutISO": "2026-04-04",
-      "dateFinSalaisonISO": "2026-04-09",
-      "dateTSFinSalaison": 1775728800000,
-      "dateDebutSechage": "07/04/2026",
-      "dateTSDebutSechage": 1775556000000,
-      "pesees": [
-        {
-          "id": 1775816495355,
-          "date": "10/04/2026",
-          "poids": 153
-        },
-        {
-          "id": 1776077749562,
-          "date": "13/04/2026",
-          "poids": 126
-        },
-        {
-          "id": 1776162278305,
-          "date": "14/04/2026",
-          "poids": 119
-        }
-      ]
     }
   ]
 }
