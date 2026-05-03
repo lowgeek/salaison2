@@ -1,68 +1,6 @@
 {
   "suivis": [
     {
-      "id": 1773474140216,
-      "nom": "Rouelle 1",
-      "phase": "sechage",
-      "poidsAvantSalaison": 1097,
-      "poidsDebutSechage": 1124,
-      "perteCible": 40,
-      "dateDebut": "09/03/2026",
-      "dateTSDebut": 1773054000000,
-      "dateDebutISO": "2026-03-09",
-      "dateFinSalaisonISO": "2026-03-23",
-      "dateTSFinSalaison": 1774263600000,
-      "dateDebutSechage": "23/03/2026",
-      "dateTSDebutSechage": 1774263600000,
-      "pesees": [
-        {
-          "id": 1774610243705,
-          "date": "27/03/2026",
-          "poids": 983
-        },
-        {
-          "id": 1774867841185,
-          "date": "30/03/2026",
-          "poids": 914
-        },
-        {
-          "id": 1774951730991,
-          "date": "31/03/2026",
-          "poids": 894
-        },
-        {
-          "id": 1775038244941,
-          "date": "01/04/2026",
-          "poids": 874
-        },
-        {
-          "id": 1775124430297,
-          "date": "02/04/2026",
-          "poids": 855
-        },
-        {
-          "id": 1775565106555,
-          "date": "07/04/2026",
-          "poids": 774
-        },
-        {
-          "id": 1775816661702,
-          "date": "10/04/2026",
-          "poids": 747
-        },
-        {
-          "id": 1776077951346,
-          "date": "13/04/2026",
-          "poids": 722
-        },
-        {
-          "id": 1776423175128,
-          "date": "17/04/2026",
-          "poids": 694
-        }
-      ]
-    },
-    {
       "id": 1777817632322,
       "nom": "4 Épices 1",
       "phase": "salaison",
