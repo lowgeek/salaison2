@@ -63,43 +63,6 @@
       ]
     },
     {
-      "id": 1775313370889,
-      "nom": "HDP 1",
-      "phase": "sechage",
-      "poidsAvantSalaison": 280,
-      "poidsDebutSechage": 263,
-      "perteCible": 40,
-      "dateDebut": "04/04/2026",
-      "dateTSDebut": 1775296800000,
-      "dateDebutISO": "2026-04-04",
-      "dateFinSalaisonISO": "2026-04-11",
-      "dateTSFinSalaison": 1775901600000,
-      "dateDebutSechage": "07/04/2026",
-      "dateTSDebutSechage": 1775556000000,
-      "pesees": [
-        {
-          "id": 1775816477721,
-          "date": "10/04/2026",
-          "poids": 224
-        },
-        {
-          "id": 1776077803810,
-          "date": "13/04/2026",
-          "poids": 198
-        },
-        {
-          "id": 1776162336170,
-          "date": "14/04/2026",
-          "poids": 190
-        },
-        {
-          "id": 1776423066398,
-          "date": "17/04/2026",
-          "poids": 174
-        }
-      ]
-    },
-    {
       "id": 1777817632322,
       "nom": "4 Épices 1",
       "phase": "salaison",
