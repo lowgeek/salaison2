@@ -47,6 +47,22 @@
       "dateDebutSechage": null,
       "dateTSDebutSechage": null,
       "pesees": []
+    },
+    {
+      "id": 1777818652372,
+      "nom": "HDP 1",
+      "phase": "salaison",
+      "poidsAvantSalaison": 343,
+      "poidsDebutSechage": null,
+      "perteCible": 40,
+      "dateDebut": "03/05/2026",
+      "dateTSDebut": 1777802400000,
+      "dateDebutISO": "2026-05-03",
+      "dateFinSalaisonISO": "2026-05-06",
+      "dateTSFinSalaison": 1778061600000,
+      "dateDebutSechage": null,
+      "dateTSDebutSechage": null,
+      "pesees": []
     }
   ]
 }
