@@ -19,17 +19,17 @@
     {
       "id": 1777818021656,
       "nom": "4 Épices 2",
-      "phase": "salaison",
+      "phase": "sechage",
       "poidsAvantSalaison": 342,
-      "poidsDebutSechage": null,
+      "poidsDebutSechage": 339,
       "perteCible": 40,
       "dateDebut": "03/05/2026",
       "dateTSDebut": 1777802400000,
       "dateDebutISO": "2026-05-03",
       "dateFinSalaisonISO": "2026-05-06",
       "dateTSFinSalaison": 1778061600000,
-      "dateDebutSechage": null,
-      "dateTSDebutSechage": null,
+      "dateDebutSechage": "07/05/2026",
+      "dateTSDebutSechage": 1778148000000,
       "pesees": []
     },
     {
