@@ -75,43 +75,6 @@
       ]
     },
     {
-      "id": 1777818303403,
-      "nom": "4 Épices 3",
-      "phase": "sechage",
-      "poidsAvantSalaison": 220,
-      "poidsDebutSechage": 223,
-      "perteCible": 40,
-      "dateDebut": "03/05/2026",
-      "dateTSDebut": 1777802400000,
-      "dateDebutISO": "2026-05-03",
-      "dateFinSalaisonISO": "2026-05-06",
-      "dateTSFinSalaison": 1778061600000,
-      "dateDebutSechage": "07/05/2026",
-      "dateTSDebutSechage": 1778148000000,
-      "pesees": [
-        {
-          "id": 1778496879293,
-          "date": "11/05/2026",
-          "poids": 181
-        },
-        {
-          "id": 1778666820707,
-          "date": "13/05/2026",
-          "poids": 166
-        },
-        {
-          "id": 1779101650560,
-          "date": "18/05/2026",
-          "poids": 139
-        },
-        {
-          "id": 1779185194938,
-          "date": "19/05/2026",
-          "poids": 134
-        }
-      ]
-    },
-    {
       "id": 1777818652372,
       "nom": "HDP 1",
       "phase": "sechage",
