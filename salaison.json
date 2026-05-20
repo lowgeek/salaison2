@@ -125,48 +125,6 @@
           "poids": 214
         }
       ]
-    },
-    {
-      "id": 1777821816886,
-      "nom": "Poivre 3",
-      "phase": "sechage",
-      "poidsAvantSalaison": 365,
-      "poidsDebutSechage": 362,
-      "perteCible": 40,
-      "dateDebut": "03/05/2026",
-      "dateTSDebut": 1777802400000,
-      "dateDebutISO": "2026-05-03",
-      "dateFinSalaisonISO": "2026-05-06",
-      "dateTSFinSalaison": 1778061600000,
-      "dateDebutSechage": "06/05/2026",
-      "dateTSDebutSechage": 1778061600000,
-      "pesees": [
-        {
-          "id": 1778496702796,
-          "date": "11/05/2026",
-          "poids": 295
-        },
-        {
-          "id": 1778666533403,
-          "date": "13/05/2026",
-          "poids": 273
-        },
-        {
-          "id": 1779101350017,
-          "date": "18/05/2026",
-          "poids": 232
-        },
-        {
-          "id": 1779185227917,
-          "date": "19/05/2026",
-          "poids": 225
-        },
-        {
-          "id": 1779276619677,
-          "date": "20/05/2026",
-          "poids": 218
-        }
-      ]
     }
   ]
 }
