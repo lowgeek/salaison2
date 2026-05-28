@@ -1,3 +1,20 @@
 {
-  "suivis": []
+  "suivis": [
+    {
+      "id": 1779985338043,
+      "nom": "Poivre 1",
+      "phase": "salaison",
+      "poidsAvantSalaison": 160,
+      "poidsDebutSechage": null,
+      "perteCible": 40,
+      "dateDebut": "28/05/2026",
+      "dateTSDebut": 1779962400000,
+      "dateDebutISO": "2026-05-28",
+      "dateFinSalaisonISO": "2026-05-30",
+      "dateTSFinSalaison": 1780135200000,
+      "dateDebutSechage": null,
+      "dateTSDebutSechage": null,
+      "pesees": []
+    }
+  ]
 }
