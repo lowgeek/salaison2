@@ -79,38 +79,6 @@
       "dateDebutSechage": null,
       "dateTSDebutSechage": null,
       "pesees": []
-    },
-    {
-      "id": 1780164577482,
-      "nom": "test",
-      "phase": "sechage",
-      "poidsAvantSalaison": 120,
-      "poidsDebutSechage": 120,
-      "perteCible": 40,
-      "dateDebut": "30/05/2026",
-      "dateTSDebut": 1780135200000,
-      "dateDebutISO": "2026-05-30",
-      "dateFinSalaisonISO": "2026-06-01",
-      "dateTSFinSalaison": 1780308000000,
-      "dateDebutSechage": "30/05/2026",
-      "dateTSDebutSechage": 1780135200000,
-      "pesees": [
-        {
-          "id": 1780164599330,
-          "date": "30/05/2026",
-          "poids": 115
-        },
-        {
-          "id": 1780164608089,
-          "date": "30/05/2026",
-          "poids": 100
-        },
-        {
-          "id": 1780164616888,
-          "date": "30/05/2026",
-          "poids": 71
-        }
-      ]
     }
   ]
 }
