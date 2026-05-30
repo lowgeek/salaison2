@@ -83,17 +83,17 @@
     {
       "id": 1780164577482,
       "nom": "test",
-      "phase": "salaison",
+      "phase": "sechage",
       "poidsAvantSalaison": 120,
-      "poidsDebutSechage": null,
+      "poidsDebutSechage": 120,
       "perteCible": 40,
       "dateDebut": "30/05/2026",
       "dateTSDebut": 1780135200000,
       "dateDebutISO": "2026-05-30",
       "dateFinSalaisonISO": "2026-06-01",
       "dateTSFinSalaison": 1780308000000,
-      "dateDebutSechage": null,
-      "dateTSDebutSechage": null,
+      "dateDebutSechage": "30/05/2026",
+      "dateTSDebutSechage": 1780135200000,
       "pesees": []
     }
   ]
