@@ -161,22 +161,6 @@
           "poids": 121
         }
       ]
-    },
-    {
-      "id": 1780680568284,
-      "nom": "Test",
-      "phase": "sechage",
-      "poidsAvantSalaison": 350,
-      "poidsDebutSechage": 350,
-      "perteCible": 40,
-      "dateDebut": "05/06/2026",
-      "dateTSDebut": 1780653600000,
-      "dateDebutISO": "2026-06-05",
-      "dateFinSalaisonISO": null,
-      "dateTSFinSalaison": null,
-      "dateDebutSechage": "05/06/2026",
-      "dateTSDebutSechage": 1780653600000,
-      "pesees": []
     }
   ]
 }
