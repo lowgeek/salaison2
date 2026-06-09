@@ -1,43 +1,6 @@
 {
   "suivis": [
     {
-      "id": 1779985338043,
-      "nom": "Poivre 1",
-      "phase": "sechage",
-      "poidsAvantSalaison": 160,
-      "poidsDebutSechage": 169,
-      "perteCible": 40,
-      "dateDebut": "28/05/2026",
-      "dateTSDebut": 1779962400000,
-      "dateDebutISO": "2026-05-28",
-      "dateFinSalaisonISO": "2026-05-30",
-      "dateTSFinSalaison": 1780135200000,
-      "dateDebutSechage": "01/06/2026",
-      "dateTSDebutSechage": 1780308000000,
-      "pesees": [
-        {
-          "id": 1780484537891,
-          "date": "03/06/2026",
-          "poids": 141
-        },
-        {
-          "id": 1780653985846,
-          "date": "05/06/2026",
-          "poids": 123
-        },
-        {
-          "id": 1780915158406,
-          "date": "08/06/2026",
-          "poids": 103
-        },
-        {
-          "id": 1781001182397,
-          "date": "09/06/2026",
-          "poids": 98
-        }
-      ]
-    },
-    {
       "id": 1779985740628,
       "nom": "Poivre 2",
       "phase": "sechage",
