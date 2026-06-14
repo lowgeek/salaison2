@@ -1,48 +1,6 @@
 {
   "suivis": [
     {
-      "id": 1779986675595,
-      "nom": "5 Baies 1",
-      "phase": "sechage",
-      "poidsAvantSalaison": 220,
-      "poidsDebutSechage": 221,
-      "perteCible": 40,
-      "dateDebut": "28/05/2026",
-      "dateTSDebut": 1779962400000,
-      "dateDebutISO": "2026-05-28",
-      "dateFinSalaisonISO": "2026-05-30",
-      "dateTSFinSalaison": 1780135200000,
-      "dateDebutSechage": "01/06/2026",
-      "dateTSDebutSechage": 1780308000000,
-      "pesees": [
-        {
-          "id": 1780484558303,
-          "date": "03/06/2026",
-          "poids": 194
-        },
-        {
-          "id": 1780654055240,
-          "date": "05/06/2026",
-          "poids": 171
-        },
-        {
-          "id": 1780915225876,
-          "date": "08/06/2026",
-          "poids": 143
-        },
-        {
-          "id": 1781001233473,
-          "date": "09/06/2026",
-          "poids": 138
-        },
-        {
-          "id": 1781174809533,
-          "date": "11/06/2026",
-          "poids": 124
-        }
-      ]
-    },
-    {
       "id": 1781460051180,
       "nom": "4 Épices 1",
       "phase": "salaison",
