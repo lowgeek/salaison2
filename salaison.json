@@ -1,48 +1,6 @@
 {
   "suivis": [
     {
-      "id": 1779985740628,
-      "nom": "Poivre 2",
-      "phase": "sechage",
-      "poidsAvantSalaison": 231,
-      "poidsDebutSechage": 234,
-      "perteCible": 40,
-      "dateDebut": "28/05/2026",
-      "dateTSDebut": 1779962400000,
-      "dateDebutISO": "2026-05-28",
-      "dateFinSalaisonISO": "2026-05-30",
-      "dateTSFinSalaison": 1780135200000,
-      "dateDebutSechage": "01/06/2026",
-      "dateTSDebutSechage": 1780308000000,
-      "pesees": [
-        {
-          "id": 1780484519588,
-          "date": "03/06/2026",
-          "poids": 202
-        },
-        {
-          "id": 1780654043854,
-          "date": "05/06/2026",
-          "poids": 181
-        },
-        {
-          "id": 1780915245527,
-          "date": "08/06/2026",
-          "poids": 153
-        },
-        {
-          "id": 1781001245898,
-          "date": "09/06/2026",
-          "poids": 146
-        },
-        {
-          "id": 1781174797321,
-          "date": "11/06/2026",
-          "poids": 131
-        }
-      ]
-    },
-    {
       "id": 1779986675595,
       "nom": "5 Baies 1",
       "phase": "sechage",
