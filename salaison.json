@@ -83,6 +83,22 @@
           "poids": 124
         }
       ]
+    },
+    {
+      "id": 1781460051180,
+      "nom": "4 Épices 1",
+      "phase": "salaison",
+      "poidsAvantSalaison": 329,
+      "poidsDebutSechage": null,
+      "perteCible": 40,
+      "dateDebut": "14/06/2026",
+      "dateTSDebut": 1781431200000,
+      "dateDebutISO": "2026-06-14",
+      "dateFinSalaisonISO": "2026-06-18",
+      "dateTSFinSalaison": 1781776800000,
+      "dateDebutSechage": null,
+      "dateTSDebutSechage": null,
+      "pesees": []
     }
   ]
 }
