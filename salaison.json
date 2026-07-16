@@ -67,28 +67,6 @@
       ]
     },
     {
-      "id": 1781461312231,
-      "nom": "5 Baies 1",
-      "phase": "sechage",
-      "poidsAvantSalaison": 450,
-      "poidsDebutSechage": 444,
-      "perteCible": 40,
-      "dateDebut": "14/06/2026",
-      "dateTSDebut": 1781431200000,
-      "dateDebutISO": "2026-06-14",
-      "dateFinSalaisonISO": "2026-06-18",
-      "dateTSFinSalaison": 1781776800000,
-      "dateDebutSechage": "18/06/2026",
-      "dateTSDebutSechage": 1781776800000,
-      "pesees": [
-        {
-          "id": 1783332614731,
-          "date": "06/07/2026",
-          "poids": 242
-        }
-      ]
-    },
-    {
       "id": 1781461693104,
       "nom": "5 Baies 2",
       "phase": "sechage",
