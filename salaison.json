@@ -1,3 +1,20 @@
 {
-  "suivis": []
+  "suivis": [
+    {
+      "id": 1787157849744,
+      "nom": "HDP 1",
+      "phase": "salaison",
+      "poidsAvantSalaison": 447,
+      "poidsDebutSechage": null,
+      "perteCible": 40,
+      "dateDebut": "19/08/2026",
+      "dateTSDebut": 1787133600000,
+      "dateDebutISO": "2026-08-19",
+      "dateFinSalaisonISO": "2026-08-22",
+      "dateTSFinSalaison": 1787392800000,
+      "dateDebutSechage": null,
+      "dateTSDebutSechage": null,
+      "pesees": []
+    }
+  ]
 }
