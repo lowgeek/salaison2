@@ -83,17 +83,17 @@
     {
       "id": 1787159520638,
       "nom": "Poivre 2",
-      "phase": "salaison",
+      "phase": "sechage",
       "poidsAvantSalaison": 227,
-      "poidsDebutSechage": null,
+      "poidsDebutSechage": 228,
       "perteCible": 40,
       "dateDebut": "19/08/2026",
       "dateTSDebut": 1787133600000,
       "dateDebutISO": "2026-08-19",
       "dateFinSalaisonISO": "2026-08-22",
       "dateTSFinSalaison": 1787392800000,
-      "dateDebutSechage": null,
-      "dateTSDebutSechage": null,
+      "dateDebutSechage": "24/08/2026",
+      "dateTSDebutSechage": 1787565600000,
       "pesees": []
     },
     {
