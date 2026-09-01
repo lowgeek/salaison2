@@ -312,6 +312,22 @@
       "dateDebutSechage": null,
       "dateTSDebutSechage": null,
       "pesees": []
+    },
+    {
+      "id": 1788283429468,
+      "nom": "HDP Lavande 1",
+      "phase": "salaison",
+      "poidsAvantSalaison": 288,
+      "poidsDebutSechage": null,
+      "perteCible": 40,
+      "dateDebut": "01/09/2026",
+      "dateTSDebut": 1788256800000,
+      "dateDebutISO": "2026-09-01",
+      "dateFinSalaisonISO": "2026-09-04",
+      "dateTSFinSalaison": 1788516000000,
+      "dateDebutSechage": null,
+      "dateTSDebutSechage": null,
+      "pesees": []
     }
   ]
 }
