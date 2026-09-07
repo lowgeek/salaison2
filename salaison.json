@@ -152,63 +152,6 @@
       ]
     },
     {
-      "id": 1787158805497,
-      "nom": "4 Épices 2",
-      "phase": "sechage",
-      "poidsAvantSalaison": 201,
-      "poidsDebutSechage": 240,
-      "perteCible": 40,
-      "dateDebut": "19/08/2026",
-      "dateTSDebut": 1787133600000,
-      "dateDebutISO": "2026-08-19",
-      "dateFinSalaisonISO": "2026-08-22",
-      "dateTSFinSalaison": 1787392800000,
-      "dateDebutSechage": "24/08/2026",
-      "dateTSDebutSechage": 1787565600000,
-      "pesees": [
-        {
-          "id": 1787656569098,
-          "date": "25/08/2026",
-          "poids": 226
-        },
-        {
-          "id": 1787741291745,
-          "date": "26/08/2026",
-          "poids": 215
-        },
-        {
-          "id": 1787827363710,
-          "date": "27/08/2026",
-          "poids": 205
-        },
-        {
-          "id": 1788174477442,
-          "date": "31/08/2026",
-          "poids": 175
-        },
-        {
-          "id": 1788258972014,
-          "date": "01/09/2026",
-          "poids": 168
-        },
-        {
-          "id": 1788344062530,
-          "date": "02/09/2026",
-          "poids": 162
-        },
-        {
-          "id": 1788520878525,
-          "date": "04/09/2026",
-          "poids": 151
-        },
-        {
-          "id": 1788777230410,
-          "date": "07/09/2026",
-          "poids": 138
-        }
-      ]
-    },
-    {
       "id": 1787159255028,
       "nom": "Poivre 1",
       "phase": "sechage",
