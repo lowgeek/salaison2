@@ -3,17 +3,17 @@
     {
       "id": 1788282739646,
       "nom": "5 Baies 3",
-      "phase": "salaison",
+      "phase": "sechage",
       "poidsAvantSalaison": 273,
-      "poidsDebutSechage": null,
+      "poidsDebutSechage": 284,
       "perteCible": 40,
       "dateDebut": "01/09/2026",
       "dateTSDebut": 1788256800000,
       "dateDebutISO": "2026-09-01",
       "dateFinSalaisonISO": "2026-09-04",
       "dateTSFinSalaison": 1788516000000,
-      "dateDebutSechage": null,
-      "dateTSDebutSechage": null,
+      "dateDebutSechage": "07/09/2026",
+      "dateTSDebutSechage": 1788775200000,
       "pesees": []
     },
     {
