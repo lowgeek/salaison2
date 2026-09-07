@@ -1,53 +1,6 @@
 {
   "suivis": [
     {
-      "id": 1787157849744,
-      "nom": "HDP 1",
-      "phase": "sechage",
-      "poidsAvantSalaison": 447,
-      "poidsDebutSechage": 435,
-      "perteCible": 40,
-      "dateDebut": "19/08/2026",
-      "dateTSDebut": 1787133600000,
-      "dateDebutISO": "2026-08-19",
-      "dateFinSalaisonISO": "2026-08-22",
-      "dateTSFinSalaison": 1787392800000,
-      "dateDebutSechage": "24/08/2026",
-      "dateTSDebutSechage": 1787565600000,
-      "pesees": [
-        {
-          "id": 1787827581979,
-          "date": "27/08/2026",
-          "poids": 372
-        },
-        {
-          "id": 1788174751625,
-          "date": "31/08/2026",
-          "poids": 315
-        },
-        {
-          "id": 1788258948360,
-          "date": "01/09/2026",
-          "poids": 302
-        },
-        {
-          "id": 1788344050454,
-          "date": "02/09/2026",
-          "poids": 289
-        },
-        {
-          "id": 1788432807246,
-          "date": "03/09/2026",
-          "poids": 277
-        },
-        {
-          "id": 1788520866160,
-          "date": "04/09/2026",
-          "poids": 267
-        }
-      ]
-    },
-    {
       "id": 1787159255028,
       "nom": "Poivre 1",
       "phase": "sechage",
