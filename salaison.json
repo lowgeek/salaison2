@@ -1,3 +1,20 @@
 {
-  "suivis": []
+  "suivis": [
+    {
+      "id": 1791723847110,
+      "nom": "5 Baies 1",
+      "phase": "salaison",
+      "poidsAvantSalaison": 278,
+      "poidsDebutSechage": null,
+      "perteCible": 40,
+      "dateDebut": "11/10/2026",
+      "dateTSDebut": 1791712800000,
+      "dateDebutISO": "2026-10-11",
+      "dateFinSalaisonISO": "2026-10-14",
+      "dateTSFinSalaison": 1791972000000,
+      "dateDebutSechage": null,
+      "dateTSDebutSechage": null,
+      "pesees": []
+    }
+  ]
 }
