@@ -31,38 +31,6 @@
           "poids": 182
         }
       ]
-    },
-    {
-      "id": 1788283659922,
-      "nom": "HDP 3",
-      "phase": "sechage",
-      "poidsAvantSalaison": 260,
-      "poidsDebutSechage": 257,
-      "perteCible": 40,
-      "dateDebut": "01/09/2026",
-      "dateTSDebut": 1788256800000,
-      "dateDebutISO": "2026-09-01",
-      "dateFinSalaisonISO": "2026-09-04",
-      "dateTSFinSalaison": 1788516000000,
-      "dateDebutSechage": "07/09/2026",
-      "dateTSDebutSechage": 1788775200000,
-      "pesees": [
-        {
-          "id": 1789381782403,
-          "date": "14/09/2026",
-          "poids": 180
-        },
-        {
-          "id": 1789553111634,
-          "date": "16/09/2026",
-          "poids": 168
-        },
-        {
-          "id": 1789642582342,
-          "date": "17/09/2026",
-          "poids": 163
-        }
-      ]
     }
   ]
 }
